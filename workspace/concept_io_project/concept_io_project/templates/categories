@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Concept.io
+{% endblock %}
+
+{% block body_block %}
+	{% if categories %}
+		<ul>
+			{% for category in categories %}
+				<li><a {{ category.title }}</a></li>
+				<ul>
+					{% for page in category.pages %}
+						{% if page %}
+							<li><a href="{{ page.url }}">{{ page.title }}</a></li>
+						{% else %}
+            					<strong>There are no pages present.</strong>
+       			 		{% endif %}
+					{% endfor %}
+				</ul>
+			{% endfor %}
+		</ul>
+	{% endif %}
+{% endfor %}
+				
