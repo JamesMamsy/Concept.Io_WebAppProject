@@ -1,4 +1,5 @@
 from django.shortcuts import render
+
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -7,8 +8,7 @@ from .forms import ImageForm, Project
 from django.shortcuts import redirect
 from .models import Image,Comment
 from django.urls import reverse
-
-from django.shortcuts import render
+from django.models import Page
 
 from .forms import Project,ImageForm
 
@@ -58,12 +58,6 @@ def edit_project(request,project_id):
 
     return render(request, 'rango/edit_project.html',{'form': form})
 
-
-def index(request):
-    # Refer to the TwD book for more information on how this updated view works.
-    context_dict = {'boldmessage': 'Crunchy, creamy, cookie, candy, cupcake!'}
-    return render(request, 'rango/index.html', context_dict)
-
 def about(request):
     # Spoiler: you don't need to pass a context dictionary here.
     return render(request, 'rango/add_project.html')
@@ -94,3 +88,14 @@ def view_projects(request):
 
 
     return render(request, 'rango/view_my_projects.html',context_dict)
+
+
+
+def index(request):
+
+    page_list = Page.objects.order_by('-views')[:5]
+    context_dict = {}
+    context_dict['pages'] = [page_list]
+    return render(request, 'rango/index.html', context = context_dict)
+
+
