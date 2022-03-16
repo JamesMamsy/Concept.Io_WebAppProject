@@ -1,0 +1,29 @@
+
+{% extends 'rango/base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-"
+        <title></title>
+    </head>
+
+    <body>
+        <div class="form-group">
+       <form id="{% url 'list' %" method="post" enctype="multipart/form-data">
+
+    {% csrf_token %}
+           <center>
+                <h1>Add your project</h1>
+          {{form.as_p}}
+
+           <button type="submit" class="btn btn-primary">Submit</button>
+
+               </center>
+</form>
+</div>
+    </body>
+{% endblock %}
