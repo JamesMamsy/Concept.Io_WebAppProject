@@ -99,5 +99,7 @@ def index(request):
     return render(request, 'rango/index.html', context = context_dict)
 
 
+
 def login(request):
     return render(request, 'login/login.html')
+
