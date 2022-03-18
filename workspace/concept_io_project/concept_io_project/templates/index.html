@@ -32,7 +32,17 @@
 
 
     <h2>New Additions</h2>
-
+    <div>
+        {% if additions %}
+            <ul>
+                {% for page in additions %}
+                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>There are no new additions present.</strong>
+        {% endif %}
+    </div>
 
 {% endblock %}
 </html>
