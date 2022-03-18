@@ -18,7 +18,7 @@
 			<div class="carousel-inner">
 				<div class="item active" id="slide1">
 					<div class="card" style="width: 18rem;">
-						<img class="card-img-top" src=category.pages[0].image alt="No image available">
+						<img class="card-img-top" src=category.pages[0].images[0] alt="No image available">
 						<div class="card-body">
 						<h5 class="card-title">category.pages[0].title</h5>
 						<p class="card-text">category.pages[0].description</p>
@@ -32,7 +32,7 @@
 					{% if page %}
 						<div class="carousel-item">
 							<div class="card" style="width: 18rem;">
-								<img class="card-img-top" src=page.image alt="No image available">
+								<img class="card-img-top" src=page.images[0] alt="No image available">
 								<div class="card-body">
 								<h5 class="card-title">page.title</h5>
 								<p class="card-text">page.description</p>
