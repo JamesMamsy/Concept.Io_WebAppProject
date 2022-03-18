@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from rango.models import Project,Image
-from rango.models import Page
+from conceptio.models import Project,Image
+from conceptio.models import Page
 
 admin.site.register(Image)
 
