@@ -1,4 +1,4 @@
-{% extends 'rango/base.html' %}
+{% extends 'conceptio/base.html' %}
 
 {% load staticfiles %}
 
@@ -77,6 +77,8 @@ body {
   }
 }
 
+
+
 </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -110,27 +112,56 @@ body {
 
 
     <a
-    <li><strong> {{project.cat}}</strong></li>
+    <li><strong>Category: {{project.cat}}</strong></li>
     </a><br/>
     <a
-    <li><strong> {{project.tags}}</strong></li>
+    <li><strong>Tags: {{project.tags}}</strong></li>
     </a><br/>
     <a
-    <li><strong> {{project.likes}}</strong></li>
+    <li><strong>Likes: {{likes}}</strong></li>
     </a><br/>
     <a
     <li><strong> {{project.dislikes}}</strong></li>
     </a><br/>
+<br>
+    {% if not project.comments.all %}
+        None
+    {% else %}
+        {% for Comment in project.comments.all %}
+        <strong>
+            {{Comment.commentor}}
+            </strong>
+    </br)
 
-    {% for c in comments %}
-
-    {{ c.comment }}
-
+    <br>
+    {{Comment.comment}}
+    </br>
     {% endfor %}
-    <a href="{% url 'rango:edit_project' project.project_id %}"> Edit this project</a><br/>
+    {% endif %}
+<form method="post" >
 
+    {% csrf_token %}
+           <center>
+
+          {{form}}
+
+           <button type="submit" class="btn btn-primary">Submit</button>
+
+               </center>
+</form>
+
+
+    <a href="{% url 'conceptio:edit_project' project.project_id %}"> Edit this project</a><br/>
+
+
+    <form action="{% url 'conceptio:like_project' project.project_id %}"
+          method = "POST">
+        {% csrf_token %}
+        <button type ="submit", name = "project_id", value = "{{project.project_id}}", class = "btn btn-primary btn-sm">Like
+        </button>
+    </form>
 
 </ul>
 
-
+</body>
 {% endblock %}

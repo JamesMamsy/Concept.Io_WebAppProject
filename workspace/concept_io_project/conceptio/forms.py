@@ -1,7 +1,10 @@
 from django import forms
 from django.forms import ModelForm,TextInput,EmailInput
-from .models import Project,Image
-from .models import Image
+from conceptio.models import Project,Image,Category,Comment
+from conceptio.models import Image
+
+
+
 class ProjectForm(ModelForm):
 
     class Meta:
@@ -9,9 +12,7 @@ class ProjectForm(ModelForm):
 
 
         # CHOICES will be replaced by categories stored in db
-        CHOICES = (('Option 1', 'Option 1'), ('Option 2', 'Option 2'),)
-
-
+        CHOICES = tuple(Category.objects.values_list('id', 'name'))
 
         fields = ['title', 'desc', 'cat','tags']
         widgets = {
@@ -24,6 +25,7 @@ class ProjectForm(ModelForm):
                 'class': "form-control",
                 'style': 'max-width: 700px;'
             }),
+
             'cat': forms.Select(attrs={
 
                 'class': "form-control",
@@ -43,3 +45,12 @@ class ImageForm(ProjectForm):
     class Meta(ProjectForm.Meta):
 
         fields = [ProjectForm.Meta.fields[0]] + [ProjectForm.Meta.fields[1]]+['images',]+[ProjectForm.Meta.fields[2]]+[ProjectForm.Meta.fields[3]]
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+
+
+
+        fields = ['comment',]
+

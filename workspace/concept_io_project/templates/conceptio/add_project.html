@@ -1,5 +1,5 @@
 
-{% extends 'rango/base.html' %}
+{% extends 'conceptio/base.html' %}
 
 {% load staticfiles %}
 
@@ -17,10 +17,10 @@
 
     {% csrf_token %}
            <center>
-                <h1>Edit your project</h1>
+                <h1>Add your project</h1>
           {{form.as_p}}
 
-           <button type="submit" class="btn btn-primary">Update</button>
+           <button type="submit" class="btn btn-primary">Submit</button>
 
                </center>
 </form>

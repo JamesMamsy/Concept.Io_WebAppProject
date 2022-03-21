@@ -2,7 +2,7 @@
 
 
 
-{% extends 'rango/base.html' %}
+{% extends 'conceptio/base.html' %}
 
 {% load staticfiles %}
 
@@ -22,7 +22,7 @@
       <h1>My Projects</h1>
     {% for c in projects %}
 
-        <a href="{% url 'rango:view_project' c.project_id %}">{{ c.title }}</strong></li></a><br />
+        <a href="{% url 'conceptio:view_project' c.project_id %}">{{ c.title }}</strong></li></a><br />
 
     {% endfor %}
 
