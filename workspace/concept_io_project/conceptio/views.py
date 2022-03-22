@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
 
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
@@ -6,9 +8,8 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect,HttpResponse
 from .forms import ImageForm, Project
 from django.shortcuts import redirect
-from .models import Image,Comment
+from .models import Category, Image,Comment
 from django.urls import reverse
-from conceptio.models import Page
 
 from conceptio.forms import Project,ImageForm
 
@@ -26,7 +27,7 @@ def add_project(request):
             desc = form.cleaned_data['desc']
             cat = form.cleaned_data['cat']
             tags = form.cleaned_data['tags']
-            p = Project.objects.create(title=title, desc=desc,cat=cat,tags=tags)
+            p = Project.objects.create(creator = request.user, title=title, desc=desc,cat=cat,tags=tags)
             p.save()
             images = request.FILES.getlist('images')
 
@@ -54,6 +55,10 @@ def edit_project(request,project_id):
         for image in images:
             photo = Image.objects.get(project=p)
             photo.save()
+    else:
+        print("nah")
+        return redirect(reverse('conceptio:view_project',kwargs={'project_id':id}))
+
 
 
     return render(request, 'conceptio/edit_project.html',{'form': form})
@@ -84,22 +89,36 @@ def view_projects(request):
     projects = Project.objects.all()
     context_dict['projects'] = projects
 
-
-
-
     return render(request, 'conceptio/view_my_projects.html',context_dict)
 
 
 
 def index(request):
 
-    page_list = Page.objects.order_by('-views')[:5]
+    cat_list = Category.objects.order_by('id')[:5]
     context_dict = {}
-    context_dict['pages'] = [page_list]
+    context_dict['cat'] = [cat_list]
     return render(request, 'conceptio/index.html', context = context_dict)
 
 
 
 def login(request):
     return render(request, 'conceptio/login.html')
+
+def categories(request):
+    
+    category_list = {"Category_name_here", "example", "etc."}
+    cat_object_list = []
+    context_dict = {}
+    for cat in category_list:
+        tmp_cat = Category.objects.filter(name=cat)
+        cat_object_list.append(tmp_cat)
+    
+    context_dict['categories'] = cat_object_list
+    return render(request, 'conceptio/categories.html')
+
+def LikeView(request,project_id):
+    project = get_object_or_404(Project, project_id=request.POST.get('project_id'))
+    project.likes.add(request.user)
+    return redirect(reverse('conceptio:view_project', kwargs={'project_id': request.POST.get('project_id')}))
 
