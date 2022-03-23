@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect,HttpResponse
 from .forms import ImageForm, Project
 from django.shortcuts import redirect
@@ -12,7 +13,7 @@ from .models import Category, Image,Comment
 from django.urls import reverse
 
 from conceptio.forms import Project,ImageForm, CommentForm
-
+from conceptio.forms import UserForm, UserProfileForm
 from django.views.generic.edit import FormView
 
 
@@ -95,7 +96,7 @@ def view_project(request,project_id):
     context_dict['form'] = form
     return render(request, 'conceptio/view_project_details.html',context_dict)
 
-
+#Should be view_my_projects, leaving in for lack of refactoring ability
 def view_projects(request):
     print(request)
 
@@ -116,9 +117,6 @@ def index(request):
     return render(request, 'conceptio/index.html', context = context_dict)
 
 
-
-def login(request):
-    return render(request, 'conceptio/login.html')
 
 def categories(request):
     
@@ -144,3 +142,66 @@ def view_categories(request):
   context_dict['categories']=categories
 
   return render(request, 'rango/categories.html',context_dict)
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+
+            if user.is_active:
+
+                login(request, user)
+                return redirect(reverse('conceptio:index'))
+            else:
+                return HttpResponse("Your Concept.io account is disabled.")
+        else:
+            print(f"Invalid login details: {username}, {password}")
+            return HttpResponse("Invalid login details supplied")
+
+    else: 
+        return render(request, 'conceptio/login.html', {})
+
+def register(request): 
+
+    registered = False
+    
+    if request.method == 'POST':
+    
+        user_form = UserForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
+        
+        if user_form.is_valid() and profile_form.is_valid():
+        
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+                
+            profile.save()
+            
+            registered = True
+            
+        else:
+
+            print(user_form.errors, profile_form.errors)
+
+    else:
+
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    return render(request, 'rango/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+
+def user_logout(request):
+    logout(request)
+    return redirect(reverse('conceptio:index'))

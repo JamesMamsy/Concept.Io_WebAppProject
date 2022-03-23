@@ -5,10 +5,11 @@
         <h1> Concept.io </h1>
 
     </head>
-
+    
     <body>
         <h1> Login </h1>
         <form id="login_form" method="post">
+            {% csrf_token %}
             <br />
             Username: <input type="text" name="username" value="" sie="50" />
             <br />

@@ -1,13 +1,9 @@
 from django import forms
 from django.forms import ModelForm,TextInput,EmailInput
-<<<<<<< HEAD:workspace/concept_io_project/conceptio/forms.py
-from conceptio.models import Project,Image, Category, Comment
-=======
-from concept_io_project.models import Project,Image
-from concept_io_project.models import Image, UserProfile
+from conceptio.models import Project,Image, Category, Comment, UserProfile
 from django.contrib.auth.models import User
 
->>>>>>> e4acbcbf7ec8832813963eff612ebdbcbff448e2:workspace/concept_io_project/rango/forms.py
+
 class ProjectForm(ModelForm):
 
     class Meta:
@@ -50,14 +46,14 @@ class ImageForm(ProjectForm):
 
         fields = [ProjectForm.Meta.fields[0]] + [ProjectForm.Meta.fields[1]]+['images',]+[ProjectForm.Meta.fields[2]]+[ProjectForm.Meta.fields[3]]
 
-<<<<<<< HEAD:workspace/concept_io_project/conceptio/forms.py
+
 class CommentForm(ModelForm):
     class Meta:
         model = Comment
 
         fields = ['comment',]
 
-=======
+
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
     
@@ -69,4 +65,4 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('website', 'picture',)        
->>>>>>> e4acbcbf7ec8832813963eff612ebdbcbff448e2:workspace/concept_io_project/rango/forms.py
+
