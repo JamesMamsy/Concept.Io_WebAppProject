@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 class Page(models.Model):
     TITLE_MAX_LENGTH = 128
@@ -11,3 +13,13 @@ class Page(models.Model):
 
     def __str__(self):
         return self.title
+
+class UserProfile(models.Model):
+      
+    user = models.OneToOneFiled(User, on_delete=models.CASCADE
+    
+    website = models.URLField(blank=True)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+    
+    def __str__(self):
+        return self.user.username    
