@@ -11,7 +11,7 @@ from django.shortcuts import redirect
 from .models import Category, Image,Comment
 from django.urls import reverse
 
-from conceptio.forms import Project,ImageForm
+from conceptio.forms import Project,ImageForm, CommentForm
 
 from django.views.generic.edit import FormView
 
@@ -55,13 +55,14 @@ def edit_project(request,project_id):
         for image in images:
             photo = Image.objects.get(project=p)
             photo.save()
-    else:
-        print("nah")
         return redirect(reverse('conceptio:view_project',kwargs={'project_id':id}))
 
+    else:
+        print("nah")
+        return render(request, 'conceptio/edit_project.html',{'form': form})
 
 
-    return render(request, 'conceptio/edit_project.html',{'form': form})
+    
 
 def about(request):
     # Spoiler: you don't need to pass a context dictionary here.
@@ -74,19 +75,33 @@ def view_project(request,project_id):
     project = Project.objects.get(project_id=project_id)
     comments = Comment.objects.filter(project=project)
     images = Image.objects.filter(project=project)
+    total_likes = get_object_or_404(Project,project_id=project_id).total_likes
 
     context_dict['project'] = project
     context_dict['images'] = images
     context_dict['comments'] = comments
+    context_dict['likes'] = total_likes
+
+    form = CommentForm(request.POST or None)
+    print (form)
+    if request.method == "POST":
+        if form.is_valid():
+            comment = form.cleaned_data['comment']
+
+            p = Comment.objects.create(project=project, commentor = request.user, comment = comment)
+            p.save()
 
 
+    context_dict['form'] = form
     return render(request, 'conceptio/view_project_details.html',context_dict)
+
 
 def view_projects(request):
     print(request)
 
     context_dict = {}
-    projects = Project.objects.all()
+    user = request.user
+    projects = Project.objects.filter(creator=user)
     context_dict['projects'] = projects
 
     return render(request, 'conceptio/view_my_projects.html',context_dict)
@@ -122,3 +137,10 @@ def LikeView(request,project_id):
     project.likes.add(request.user)
     return redirect(reverse('conceptio:view_project', kwargs={'project_id': request.POST.get('project_id')}))
 
+def view_categories(request):
+  context_dict = {}
+
+  categories=Category.objects.all()
+  context_dict['categories']=categories
+
+  return render(request, 'rango/categories.html',context_dict)

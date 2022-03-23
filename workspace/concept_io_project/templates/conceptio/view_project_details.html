@@ -127,27 +127,54 @@ body {
 
 
     <a
-    <li><strong> {{project.cat}}</strong></li>
+    <li><strong>Category: {{project.cat}}</strong></li>
     </a><br/>
     <a
-    <li><strong> {{project.tags}}</strong></li>
+    <li><strong>Tags: {{project.tags}}</strong></li>
     </a><br/>
     <a
-    <li><strong> {{project.likes}}</strong></li>
+    <li><strong>Likes: {{likes}}</strong></li>
     </a><br/>
     <a
     <li><strong> {{project.dislikes}}</strong></li>
     </a><br/>
+<br>
+{% if not project.comments.all %}
+  None
+{% else %}
+  {% for Comment in project.comments.all %}
+    <strong>
+      {{Comment.commentor}}
+    </strong>
+</br)
 
-    {% for c in comments %}
+    <br>
+      {{Comment.comment}}
+    </br>
+  {% endfor %}
+{% endif %}
 
-    {{ c.comment }}
+<form method="post" >
 
-    {% endfor %}
-    <a href="{% url 'rango:edit_project' project.project_id %}"> Edit this project</a><br/>
+  {% csrf_token %}
+  <center>
+      {{form}}
+      <button type="submit" class="btn btn-primary">Submit</button>
+  </center>
+
+</form>
+
+<a href="{% url 'conceptio:edit_project' project.project_id %}"> Edit this project</a><br/>
 
 
-</ul>
+    <form action="{% url 'conceptio:like_project' project.project_id %}"
+          method = "POST">
+        {% csrf_token %}
+        <button type ="submit", name = "project_id", value = "{{project.project_id}}", class = "btn btn-primary btn-sm">Like
+        </button>
+    </form>
 
+
+</body>
 
 {% endblock %}
