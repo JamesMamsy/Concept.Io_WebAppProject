@@ -39,19 +39,6 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment
 
-<<<<<<< HEAD
-class Page(models.Model):
-    TITLE_MAX_LENGTH = 128
-    URL_MAX_LENGTH = 200
-
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    title = models.CharField(max_length=TITLE_MAX_LENGTH)
-    url = models.URLField()
-    views = models.IntegerField(default = 0)
-
-    def __str__(self):
-        return self.title
-=======
 class Category(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField('name', max_length=100)
@@ -74,5 +61,4 @@ class Category(models.Model):
     name = models.CharField('Name', max_length=120)
     noProjects=0
 
->>>>>>> f88be2dc146860edd93c563b3a02b3774ae03f3c
 

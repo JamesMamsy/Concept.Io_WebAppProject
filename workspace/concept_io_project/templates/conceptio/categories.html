@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
 {% extends 'rango/base.html' %}
 {% load staticfiles %}
 
@@ -8,7 +7,7 @@
 
 {% block body_block %}
 <head>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	integrity="sha384-"
 	<title>Categories</title>
 </head>
@@ -21,23 +20,23 @@
 					<div class="card" style="width: 18rem;">
 						<img class="card-img-top" src=category.pages[0].images[0] alt="No image available">
 						<div class="card-body">
-						<h5 class="card-title">category.pages[0].title</h5>
-						<p class="card-text">category.pages[0].description</p>
-						<a href="#" class="card-link">category.pages[0].url</a>
+						<h5 class="card-title">category.projects[0].title</h5>
+						<p class="card-text">category.projects[0].description</p>
+						<a href="#" class="card-link">category.projetcts[0].url</a>
 						
 						</div>
 					</div>
 
 			
-				{% for page in category.pages[1:] %}
-					{% if page %}
+				{% for project in category.projects[1:] %}
+					{% if project %}
 						<div class="carousel-item">
 							<div class="card" style="width: 18rem;">
-								<img class="card-img-top" src=page.images[0] alt="No image available">
+								<img class="card-img-top" src=project.images[0] alt="No image available">
 								<div class="card-body">
-								<h5 class="card-title">page.title</h5>
-								<p class="card-text">page.description</p>
-								<a href="#" class="card-link">page.url</a>
+								<h5 class="card-title">project.title</h5>
+								<p class="card-text">project.description</p>
+								<a href="#" class="card-link">project.url</a>
 								
 								</div>
 							</div>
@@ -63,31 +62,5 @@
 
 			
 		</div>
-=======
-{% extends 'conceptio/base.html' %}
-{% load staticfiles %}
-
-{% block title_block %}
-    Concept.io
-{% endblock %}
-
-{% block body_block %}
-	{% if categories %}
-		<ul>
-			{% for category in categories %}
-				<li><a {{ category.title }}</a></li>
-				<ul>
-					{% for page in category.pages %}
-						{% if page %}
-							<li><a href="{{ page.url }}">{{ page.title }}</a></li>
-						{% else %}
-            					<strong>There are no pages present.</strong>
-       			 		{% endif %}
-					{% endfor %}
-				</ul>
-			{% endfor %}
-		</ul>
-	{% endif %}
->>>>>>> f88be2dc146860edd93c563b3a02b3774ae03f3c
 {% endfor %}
 				
