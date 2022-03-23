@@ -1,7 +1,15 @@
 from django.urls import path
-from rango import views
+from conceptio import views
+from registration.backends.simple.views import RegistrationView
+from django.urls import reverse
 
-app_name = 'rango'
+
+app_name = 'conceptio'
+
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, user):
+        return reverse('conceptio:register_profile')
+
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -10,5 +18,8 @@ urlpatterns = [
     path('view_my_project_details/<project_id>/', views.view_project, name='view_project'),
     path('view_projects/', views.view_projects, name='Choose A Project'),
     path('login/', views.login, name='login'),
+    path('Register_here/', views.Register_here, name=' Register Here'),
+    path('Register/', views.Register, name = 'Register'),
+    
 ]
 

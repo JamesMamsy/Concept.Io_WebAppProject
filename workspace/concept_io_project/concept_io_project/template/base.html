@@ -21,6 +21,18 @@
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                         <a class="nav-link" href="#">Browse</a>
                         <a class="nav-link" href="#">Profile</a>
+			{% if user.is_authenticated %}
+			            <a href="{% url 'rango:restricted' %}">Restricted Page</a>
+			            <a href="{% url 'rango:logout' %}">Logout</a>
+			            <a href="{% url 'rango:add_category' %}">Add a New Category</a>
+			{% else %}  
+			            <a href="{% url 'rango:register' %}">Register</a>
+			            <a href="{% url 'rango:login' %}">Login</a>
+			{% endif %}  
+			  
+			  		  
+			
+		</div>
                     </div>
                 </div>
             </div>
