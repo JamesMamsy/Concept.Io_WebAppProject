@@ -39,6 +39,7 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment
 
+<<<<<<< HEAD
 class Page(models.Model):
     TITLE_MAX_LENGTH = 128
     URL_MAX_LENGTH = 200
@@ -50,4 +51,28 @@ class Page(models.Model):
 
     def __str__(self):
         return self.title
+=======
+class Category(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField('name', max_length=100)
+
+    def _str_(self):
+        return self.name
+        
+class User(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField('name', max_length=100)
+
+    def __str__(self):
+        return self.name 
+
+
+
+
+# Create your models here.
+class Category(models.Model):
+    name = models.CharField('Name', max_length=120)
+    noProjects=0
+
+>>>>>>> f88be2dc146860edd93c563b3a02b3774ae03f3c
 

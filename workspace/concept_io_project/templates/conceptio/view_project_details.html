@@ -1,4 +1,4 @@
-{% extends 'rango/base.html' %}
+{% extends 'conceptio/base.html' %}
 
 {% load staticfiles %}
 
@@ -80,10 +80,9 @@ body {
 </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-"
+          integrity="sha384-">
     <title></title>
-
-
+    
 </head>
 
 <div class="header">
@@ -92,6 +91,24 @@ body {
 <body>
 <div class="row">
     <div class="leftcolumn">
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          {% for c in images%}
+            <div class="carousel-item">
+              <img src="{{ MEDIA_URL}}{{c.image}}" class="d-block w-100" alt="Image can't be shown">
+            </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
         <div class="card">
 
             <h5>{{project.desc}}</h5>
