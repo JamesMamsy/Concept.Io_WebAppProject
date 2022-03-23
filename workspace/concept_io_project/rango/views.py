@@ -6,9 +6,9 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect,HttpResponse
 from .forms import ImageForm, Project
 from django.shortcuts import redirect
-from .models import Image,Comment
+from .models import Image,Comment, Page
 from django.urls import reverse
-from django.models import Page
+# from django.models import Page
 
 from .forms import Project,ImageForm
 

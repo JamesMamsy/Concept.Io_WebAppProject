@@ -1,14 +1,26 @@
+from dataclasses import field
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
+class Category(models.Model):
+        
+    name = models.CharField('Name', max_length=20)
+    created_date = models.DateTimeField("Created date")
+    def __str__(self):
+        return self.title
+class Tag(models.Model):
+
+    name = models.CharField('Tag', max_length=20)
 class Project(models.Model):
     #UserId - User that created the project
     project_id = models.AutoField(primary_key=True)
     title = models.CharField('Title', max_length=120)
     desc = models.CharField('Description',max_length=300)
     cat = models.CharField('Category', max_length=300,default='')
+    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = models.CharField('Tags', max_length=300,default='')
+    tag_ids = models.ManyToManyField(Tag)
     likes = models.IntegerField('likes', default=0)
     dislikes = models.IntegerField('dislikes', default=0)
     slug = models.SlugField(unique=True)
@@ -39,6 +51,7 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment
 
+
 class Page(models.Model):
     TITLE_MAX_LENGTH = 128
     URL_MAX_LENGTH = 200
@@ -50,4 +63,7 @@ class Page(models.Model):
 
     def __str__(self):
         return self.title
+
+
+    
 
