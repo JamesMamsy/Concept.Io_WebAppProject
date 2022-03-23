@@ -1,9 +1,9 @@
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tango_with_django_project.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'concept_io_project.settings')
 
 import django
 django.setup()
-from conceptio.models import Category, Page
+from conceptio.models import Category, Project
 
 def populate():
 
