@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
 class Project(models.Model):
-    #UserId - User that created the project
+    creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     project_id = models.AutoField(primary_key=True)
     title = models.CharField('Title', max_length=120)
     desc = models.CharField('Description',max_length=300)
