@@ -46,7 +46,7 @@ def populate():
      for cat, cat_data in categories.items():
          c = add_cat(cat)
          for p in cat_data['projects']:
-             add_page(c, p['title'], p['desc'],p['tags'],p['likes'],p['dislikes'])
+             add_project(c, p['title'], p['desc'],p['tags'],p['likes'],p['dislikes'])
 
 
      for c in Category.objects.all():
@@ -55,7 +55,7 @@ def populate():
 
 
 
-def add_page(cat, title, desc,tags,likes,dislikes, views=0):
+def add_project(cat, title, desc,tags,likes,dislikes, views=0):
      p = Project.objects.get_or_create(category=cat, title=title)[0]
      p.desc=desc
      p.cat=cat
