@@ -111,12 +111,24 @@ def view_projects(request):
 
 def index(request):
 
-    cat_list = Category.objects.order_by('id')[:5]
+    popular_projects = Project.objects.order_by('likes')[:5]
+
+    featured_choices = Project.objects.order_by('id')[-5:]
+    featured = Project.objects.order_by('id')[-1:]
+    for projects in featured_choices:
+        if projects.total_likes() > featured.total_likes():
+            featured = projects
+
+    new_projects = Project.objects.order_by('id')[-10:]
+
+
+    featured = Project.objects.order_by('')
     context_dict = {}
-    context_dict['cat'] = [cat_list]
+    context_dict['popular_projects'] = [popular_projects]
+    context_dict['featured'] = [featured]
+    context_dict['new'] = new_projects
+
     return render(request, 'conceptio/index.html', context = context_dict)
-
-
 
 def categories(request):
     
