@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rango', '0003_auto_20220315_0037'),
+        ('conceptio', '0003_auto_20220315_0037'),
     ]
 
     operations = [

@@ -9,7 +9,7 @@ class ProjectForm(ModelForm):
 
         # CHOICES will be replaced by categories stored in db
         
-        CHOICES = tuple(Category.objects.values_list('id', 'name'))
+        CHOICES =('x','x',)
 
 
         fields = ['title', 'desc', 'cat','tags']

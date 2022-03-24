@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rango', '0004_comment'),
+        ('conceptio', '0004_comment'),
     ]
 
     operations = [
