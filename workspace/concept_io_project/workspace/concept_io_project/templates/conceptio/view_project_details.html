@@ -90,41 +90,8 @@ body {
 
 <div class="header">
     <h2>{{project.title}}</h2>
-    <h5>{{project.creator}}</h5>
 </div>
-
-
 <body>
-
-
-
-
-<div class="row">
-    <div class="leftcolumn">
-      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          {% for c in images%}
-            <div class="carousel-item">
-              <img src="{{ MEDIA_URL}}{{c.image}}" class="d-block w-100" alt="Image can't be shown">
-            </div>
-          {% endfor %}
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-
-
-
-
-
-
-
 <div class="row">
     <div class="leftcolumn">
         <div class="card">
@@ -153,7 +120,9 @@ body {
     <a
     <li><strong>Likes: {{likes}}</strong></li>
     </a><br/>
-
+    <a
+    <li><strong> {{project.dislikes}}</strong></li>
+    </a><br/>
 <br>
     {% if not project.comments.all %}
         None
@@ -170,10 +139,11 @@ body {
     {% endfor %}
     {% endif %}
 <form method="post" >
+
     {% csrf_token %}
            <center>
 
-          {{form.as_p}}
+          {{form}}
 
            <button type="submit" class="btn btn-primary">Submit</button>
 

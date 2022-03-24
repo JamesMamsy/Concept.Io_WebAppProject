@@ -1,20 +1,18 @@
 from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
+
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login, logout
+
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseRedirect,HttpResponse
 from .forms import ImageForm, Project
 from django.shortcuts import redirect
-from .models import Image,Comment,Category
+from .models import Image,Comment
 from django.urls import reverse
 
 
-
-
-from conceptio.forms import Project,ImageForm,CommentForm,SearchForm,UserProfileForm,UserForm
+from conceptio.forms import Project,ImageForm,CommentForm
 
 from django.views.generic.edit import FormView
 
@@ -44,7 +42,8 @@ def add_project(request):
                 photo = Image.objects.create(image=image, project=p)
                 photo.save()
             id=p.project_id
-
+        else:
+            print("nah")
             return redirect(reverse('conceptio:view_project',kwargs={'project_id':id}))
 
     return render(request, 'conceptio/add_project.html',{'form': photo})
@@ -56,12 +55,6 @@ def add_comment(request,):
     return render(request, 'conceptio/add_project.html',{'form': photo})
 
 
-def categories(request):
-    context_dict = {}
-
-    context_dict['categories'] = Category.objects.all()
-    context_dict['projects']=Project.objects.all()
-    return render(request, 'conceptio/categories.html',context_dict)
 
 def edit_project(request,project_id):
     # This only currently loads all fields except images and updates all fields except images
@@ -100,7 +93,6 @@ def view_project(request,project_id):
     context_dict['likes'] = total_likes
 
     form = CommentForm(request.POST or None)
-    context_dict['form'] = form
     print (form)
     if request.method == "POST":
         if form.is_valid():
@@ -110,7 +102,7 @@ def view_project(request,project_id):
             p.save()
 
             return redirect(reverse('conceptio:view_project', kwargs={'project_id': project.project_id}))
-
+    context_dict['form'] = form
     return render(request, 'conceptio/view_project_details.html',context_dict)
 
 def view_projects(request):
@@ -126,39 +118,6 @@ def view_projects(request):
     return render(request, 'conceptio/view_my_projects.html',context_dict)
 
 
-def view_projects_by_tag(request,search_criteria):
-    show=False
-    projects_to_be_showed=[]
-    all_projects=Project.objects.all()
-    for project in projects:
-        for tag in search_criteria.split():
-            if tag in project.tags.split():
-                show=True
-            else:
-                show=False
-        if show:
-            projects_to_be_showed.append(project)
-
-
-        context_dict={'projects':projects_to_be_showed}
-
-
-    return render(request, 'conceptio/view_projects_by_tag.html',context_dict)
-
-
-
-
-def view_projects_by_category(request,category):
-    all_projects=Project.objects.all()
-    projects = all_projects.filter(cat=Category.objects.get(name=category).id)
-    print(category)
-
-
-    context_dict={'projects':projects}
-
-
-    return render(request, 'conceptio/view_projects_by_tag.html',context_dict)
-
 
 def index(request):
     # Refer to the TwD book for more information on how this updated view works.
@@ -167,71 +126,6 @@ def index(request):
 
 
 
+def login(request):
+    return render(request, 'login/login.html')
 
-
-def search(request):
-    search = SearchForm(request.POST or None)
-
-    if request.method == "POST":
-        if search.is_valid():
-            print("alrighht")
-            criteria = search.cleaned_data['search']
-            print(criteria)
-
-            return redirect(reverse('conceptio:view_projects_by_tag', kwargs={'search_criteria': criteria}))
-
-    return render(request, 'conceptio/search.html',{'form': search})
-
-
-def user_login(request):
-    form = UserForm(request.POST or None)
-
-    if request.method == 'POST':
-
-
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-
-            if user:
-
-                if user.is_active:
-
-                    login(request, user)
-                    return redirect(reverse('conceptio:index'))
-                else:
-                    return HttpResponse("Your Concept.io account is disabled.")
-            else:
-                print(f"Invalid login details: {username}, {password}")
-                return HttpResponse("Invalid login details supplied")
-
-    else:
-        return render(request, 'conceptio/login.html', {"login_form":form})
-
-
-def register(request):
-
-    form = UserForm(request.POST)
-    form2 = UserProfileForm(request.POST)
-
-    if request.method == 'POST':
-
-        if form.is_valid() and form2.is_valid():
-            form.save()
-            form2.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('home')
-
-
-
-    return render(request, 'conceptio/register.html',
-                  context={'user_form': UserForm, 'profile_form': UserProfileForm})
-
-
-def user_logout(request):
-    logout(request)
-    return redirect(reverse('conceptio:index'))

@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 {% extends 'conceptio/base.html' %}
 
 {% load staticfiles %}
@@ -14,25 +8,22 @@
     <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-"
-
+        <title></title>
     </head>
 
     <body>
-
         <div class="form-group">
-      <ul>
+       <form method="post">
 
- <center>
-      <h1>Categories</h1>
-    {% for c in categories %}
+    {% csrf_token %}
+           <center>
+                <h1>Search</h1>
+          {{form.as_p}}
 
-        <a href="{% url 'conceptio:view_projects_by_category' c.name %}">{{ c.name }}</strong></li></a><br />
+           <button type="submit" class="btn btn-primary">Submit</button>
 
-    {% endfor %}
-
-
- </center>
-</ul>
+               </center>
+</form>
 </div>
     </body>
 {% endblock %}
