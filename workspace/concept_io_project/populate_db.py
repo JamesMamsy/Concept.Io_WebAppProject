@@ -28,7 +28,7 @@ def populate():
          {'project_id':12,'title':"Guide to utilites", 'desc':'Only one way to describe this','cat':'Utility','tags':['html','css'],'likes':1,'dislikes':8},
      ]
 
-     artisticProjet=[
+     artisticProjets=[
          {'project_id':13,'title':"Arts of the past", 'desc':'This project has been designed by me','cat':'Artistic','tags':['drawing','old'],'likes':23,'dislikes':8},
          {'project_id':14,'title':"Arts of the present", 'desc':'This project has been designed by nobody','cat':'Artistic','tags':['drawing','modern'],'likes':43,'dislikes':4},
          {'project_id':15,'title':"Arts of programing", 'desc':'One can only describe this','cat':'Artistic','tags':['java','jquery'],'likes':23,'dislikes':13},
@@ -41,36 +41,30 @@ def populate():
          {'project_id':20,'title':"Front to the past", 'desc':'The science of reverse','cat':'Sci-Fi','tags':['video',],'likes':34,'dislikes':4},
      ]
 
-    categories = {'Technology':{'projects':technologyProjects},
-                'Fantasy':{'projects':fantasyProjects},
-                'Utility':{'projects':utilityProjects},
-                'Artistic':{'projects':artisticProjects},
-                'Sci-Fi':{'projects':scifiProjects}
+     categories = {'Technology':{'projects':technologyProjects},'Fantasy':{'projects':fantasyProjects},'Utility':{'projects':utilityProjects},'Artistic':{'projects':artisticProjets},'Sci-Fi':{'projects':scifiProjects}}
 
-    }
-
-    for cat, cat_data in cats.items():
-        c = add_cat(cat)
-        for p in cat_data['projects']:
-            add_page(c, p['title'], p['desc'],p['cat'],p['tags'],p['likes'],p['dislikes'])
+     for cat, cat_data in categories.items():
+         c = add_cat(cat)
+         for p in cat_data['projects']:
+             add_page(c, p['title'], p['desc'],p['tags'],p['likes'],p['dislikes'])
 
 
-    for c in Category.objects.all():
-        for p in Project.objects.filter(category=c):
+     for c in Category.objects.all():
+         for p in Project.objects.filter(category=c):
             print(f'- {c}: {p}')
 
 
 
-def add_page(cat, title, desc,cat,tags,likes,dislikes, views=0):
-    p = Project.objects.get_or_create(category=cat, title=title)[0]
-    p.desc=desc
-    p.cat=cat
-    p.tags=tags
-    p.likes=likes
-    p.dislikes=dislikes
-    p.views=views
-    p.save()
-    return p
+def add_page(cat, title, desc,tags,likes,dislikes, views=0):
+     p = Project.objects.get_or_create(category=cat, title=title)[0]
+     p.desc=desc
+     p.cat=cat
+     p.tags=tags
+     p.likes=likes
+     p.dislikes=dislikes
+     p.views=views
+     p.save()
+     return p
 
 def add_cat(name):
     c = Category.objects.get_or_create(name=name)[0]
@@ -78,7 +72,7 @@ def add_cat(name):
     return c
 
 if __name__ == '__main__':
-    print("Starting conceptio population..")
-    populate()
+     print("Starting conceptio population..")
+     populate()
 
 
