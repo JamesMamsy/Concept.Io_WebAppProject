@@ -1,28 +1,21 @@
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, get_object_or_404
+
+
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect,HttpResponse
 from .forms import ImageForm, Project
 from django.shortcuts import redirect
-from .models import Image,Comment,Category
+from .models import Category, Image,Comment
 from django.urls import reverse
 
-
-
-
-from conceptio.forms import Project,ImageForm,CommentForm,SearchForm,UserProfileForm,UserForm
-
+from conceptio.forms import Project,ImageForm, CommentForm
+from conceptio.forms import UserForm, UserProfileForm
 from django.views.generic.edit import FormView
 
-
-def LikeView(request,project_id):
-    project = get_object_or_404(Project, project_id=request.POST.get('project_id'))
-    project.likes.add(request.user)
-    return redirect(reverse('conceptio:view_project', kwargs={'project_id': request.POST.get('project_id')}))
 
 
 def add_project(request):
@@ -44,24 +37,9 @@ def add_project(request):
                 photo = Image.objects.create(image=image, project=p)
                 photo.save()
             id=p.project_id
-
             return redirect(reverse('conceptio:view_project',kwargs={'project_id':id}))
 
     return render(request, 'conceptio/add_project.html',{'form': photo})
-
-
-def add_comment(request,):
-
-
-    return render(request, 'conceptio/add_project.html',{'form': photo})
-
-
-def categories(request):
-    context_dict = {}
-
-    context_dict['categories'] = Category.objects.all()
-    context_dict['projects']=Project.objects.all()
-    return render(request, 'conceptio/categories.html',context_dict)
 
 def edit_project(request,project_id):
     # This only currently loads all fields except images and updates all fields except images
@@ -78,9 +56,14 @@ def edit_project(request,project_id):
         for image in images:
             photo = Image.objects.get(project=p)
             photo.save()
+        return redirect(reverse('conceptio:view_project',kwargs={'project_id':id}))
+
+    else:
+        print("nah")
+        return render(request, 'conceptio/edit_project.html',{'form': form})
 
 
-    return render(request, 'conceptio/edit_project.html',{'form': form})
+    
 
 def about(request):
     # Spoiler: you don't need to pass a context dictionary here.
@@ -94,13 +77,13 @@ def view_project(request,project_id):
     comments = Comment.objects.filter(project=project)
     images = Image.objects.filter(project=project)
     total_likes = get_object_or_404(Project,project_id=project_id).total_likes
+
     context_dict['project'] = project
     context_dict['images'] = images
     context_dict['comments'] = comments
     context_dict['likes'] = total_likes
 
     form = CommentForm(request.POST or None)
-    context_dict['form'] = form
     print (form)
     if request.method == "POST":
         if form.is_valid():
@@ -109,128 +92,115 @@ def view_project(request,project_id):
             p = Comment.objects.create(project=project, commentor = request.user, comment = comment)
             p.save()
 
-            return redirect(reverse('conceptio:view_project', kwargs={'project_id': project.project_id}))
 
+    context_dict['form'] = form
     return render(request, 'conceptio/view_project_details.html',context_dict)
 
+#Should be view_my_projects, leaving in for lack of refactoring ability
 def view_projects(request):
     print(request)
 
     context_dict = {}
-    projects = Project.objects.filter(creator= request.user)
+    user = request.user
+    projects = Project.objects.filter(creator=user)
     context_dict['projects'] = projects
-
-
-
 
     return render(request, 'conceptio/view_my_projects.html',context_dict)
 
 
-def view_projects_by_tag(request,search_criteria):
-    show=False
-    projects_to_be_showed=[]
-    all_projects=Project.objects.all()
-    for project in projects:
-        for tag in search_criteria.split():
-            if tag in project.tags.split():
-                show=True
-            else:
-                show=False
-        if show:
-            projects_to_be_showed.append(project)
-
-
-        context_dict={'projects':projects_to_be_showed}
-
-
-    return render(request, 'conceptio/view_projects_by_tag.html',context_dict)
-
-
-
-
-def view_projects_by_category(request,category):
-    all_projects=Project.objects.all()
-    projects = all_projects.filter(cat=Category.objects.get(name=category).id)
-    print(category)
-
-
-    context_dict={'projects':projects}
-
-
-    return render(request, 'conceptio/view_projects_by_tag.html',context_dict)
-
 
 def index(request):
-    # Refer to the TwD book for more information on how this updated view works.
-    context_dict = {'boldmessage': 'Crunchy, creamy, cookie, candy, cupcake!'}
-    return render(request, 'conceptio/index.html', context_dict)
+
+    cat_list = Category.objects.order_by('id')[:5]
+    context_dict = {}
+    context_dict['cat'] = [cat_list]
+    return render(request, 'conceptio/index.html', context = context_dict)
 
 
 
+def categories(request):
+    
+    category_list = {"Category_name_here", "example", "etc."}
+    cat_object_list = []
+    context_dict = {}
+    for cat in category_list:
+        tmp_cat = Category.objects.filter(name=cat)
+        cat_object_list.append(tmp_cat)
+    
+    context_dict['categories'] = cat_object_list
+    return render(request, 'conceptio/categories.html')
 
+def LikeView(request,project_id):
+    project = get_object_or_404(Project, project_id=request.POST.get('project_id'))
+    project.likes.add(request.user)
+    return redirect(reverse('conceptio:view_project', kwargs={'project_id': request.POST.get('project_id')}))
 
-def search(request):
-    search = SearchForm(request.POST or None)
+def view_categories(request):
+  context_dict = {}
 
-    if request.method == "POST":
-        if search.is_valid():
-            print("alrighht")
-            criteria = search.cleaned_data['search']
-            print(criteria)
+  categories=Category.objects.all()
+  context_dict['categories']=categories
 
-            return redirect(reverse('conceptio:view_projects_by_tag', kwargs={'search_criteria': criteria}))
-
-    return render(request, 'conceptio/search.html',{'form': search})
-
+  return render(request, 'rango/categories.html',context_dict)
 
 def user_login(request):
-    form = UserForm(request.POST or None)
-
     if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
 
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
+        user = authenticate(username=username, password=password)
 
-            if user:
+        if user:
 
-                if user.is_active:
+            if user.is_active:
 
-                    login(request, user)
-                    return redirect(reverse('conceptio:index'))
-                else:
-                    return HttpResponse("Your Concept.io account is disabled.")
+                login(request, user)
+                return redirect(reverse('conceptio:index'))
             else:
-                print(f"Invalid login details: {username}, {password}")
-                return HttpResponse("Invalid login details supplied")
+                return HttpResponse("Your Concept.io account is disabled.")
+        else:
+            print(f"Invalid login details: {username}, {password}")
+            return HttpResponse("Invalid login details supplied")
+
+    else: 
+        return render(request, 'conceptio/login.html', {})
+
+def register(request): 
+
+    registered = False
+    
+    if request.method == 'POST':
+    
+        user_form = UserForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
+        
+        if user_form.is_valid() and profile_form.is_valid():
+        
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+                
+            profile.save()
+            
+            registered = True
+            
+        else:
+
+            print(user_form.errors, profile_form.errors)
 
     else:
-        return render(request, 'conceptio/login.html', {"login_form":form})
 
+        user_form = UserForm()
+        profile_form = UserProfileForm()
 
-def register(request):
-
-    form = UserForm(request.POST)
-    form2 = UserProfileForm(request.POST)
-
-    if request.method == 'POST':
-
-        if form.is_valid() and form2.is_valid():
-            form.save()
-            form2.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('home')
-
-
-
-    return render(request, 'conceptio/register.html',
-                  context={'user_form': UserForm, 'profile_form': UserProfileForm})
-
+    return render(request, 'rango/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 def user_logout(request):
     logout(request)

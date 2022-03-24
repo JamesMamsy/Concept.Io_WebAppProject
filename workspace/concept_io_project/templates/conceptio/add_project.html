@@ -13,17 +13,18 @@
 
     <body>
         <div class="form-group">
-       <form id="{% url 'list' %" method="post" enctype="multipart/form-data">
+            <form id="{% url 'list' %" method="post" enctype="multipart/form-data">
 
-    {% csrf_token %}
-           <center>
-                <h1>Add your project</h1>
-          {{form.as_p}}
 
-           <button type="submit" class="btn btn-primary">Submit</button>
+            {% csrf_token %}
+                <center>
+                    <h1>Add your project</h1>
+                    {{form.as_p}}
 
-               </center>
-</form>
-</div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                </center>
+            </form>
+        </div>
     </body>
 {% endblock %}

@@ -77,28 +77,18 @@ body {
   }
 }
 
-
-
 </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-"
+          integrity="sha384-">
     <title></title>
-
-
+    
 </head>
 
 <div class="header">
     <h2>{{project.title}}</h2>
-    <h5>{{project.creator}}</h5>
 </div>
-
-
 <body>
-
-
-
-
 <div class="row">
     <div class="leftcolumn">
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
@@ -119,14 +109,6 @@ body {
         </button>
       </div>
 
-
-
-
-
-
-
-<div class="row">
-    <div class="leftcolumn">
         <div class="card">
 
             <h5>{{project.desc}}</h5>
@@ -153,35 +135,36 @@ body {
     <a
     <li><strong>Likes: {{likes}}</strong></li>
     </a><br/>
-
+    <a
+    <li><strong> {{project.dislikes}}</strong></li>
+    </a><br/>
 <br>
-    {% if not project.comments.all %}
-        None
-    {% else %}
-        {% for Comment in project.comments.all %}
-        <strong>
-            {{Comment.commentor}}
-            </strong>
-    </br)
+{% if not project.comments.all %}
+  None
+{% else %}
+  {% for Comment in project.comments.all %}
+    <strong>
+      {{Comment.commentor}}
+    </strong>
+</br)
 
     <br>
-    {{Comment.comment}}
+      {{Comment.comment}}
     </br>
-    {% endfor %}
-    {% endif %}
+  {% endfor %}
+{% endif %}
+
 <form method="post" >
-    {% csrf_token %}
-           <center>
 
-          {{form.as_p}}
+  {% csrf_token %}
+  <center>
+      {{form}}
+      <button type="submit" class="btn btn-primary">Submit</button>
+  </center>
 
-           <button type="submit" class="btn btn-primary">Submit</button>
-
-               </center>
 </form>
 
-
-    <a href="{% url 'conceptio:edit_project' project.project_id %}"> Edit this project</a><br/>
+<a href="{% url 'conceptio:edit_project' project.project_id %}"> Edit this project</a><br/>
 
 
     <form action="{% url 'conceptio:like_project' project.project_id %}"
@@ -191,7 +174,7 @@ body {
         </button>
     </form>
 
-</ul>
 
 </body>
+
 {% endblock %}
