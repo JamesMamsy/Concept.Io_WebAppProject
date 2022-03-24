@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+{% extends 'conceptio/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Concept.io
+    Profile for {{ selected_user.username }}
+{% endblock %}
+
+{% block body_block %}
+<div class="jumbotron p-4">
+    <div class="container">
+	    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        <h1 class="jumbatron-heading">{{ selected_user.username }} 's Profile</h1>
+	</div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <img src="{{ MEDIA_URL }}{{ user_profile.picture }}"
+            width="300"
+            height="300"
+            alt="{{ selected_user.username }}'s profile image" />
+        <br />
+        <div>
+            {% if selected_user == user %}
+            <form method="post" action="." enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <input type="submit" value="Update" />
+            </form>
+            {% else %}
+            <p>
+                <strong>Website:</strong>
+                <a href="{{ user_profile.website }}">{{ user_profile.website }}</a>
+				
+            </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %>	
+		
