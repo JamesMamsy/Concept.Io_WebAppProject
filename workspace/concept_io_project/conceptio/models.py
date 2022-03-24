@@ -7,7 +7,7 @@ class Project(models.Model):
     project_id = models.AutoField(primary_key=True)
     title = models.CharField('Title', max_length=120)
     desc = models.CharField('Description',max_length=300)
-    cat = models.CharField('Category', max_length=300,default='')
+    cat = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = models.CharField('Tags', max_length=300,default='')
     likes = models.IntegerField('likes', default=0)
     dislikes = models.IntegerField('dislikes', default=0)
