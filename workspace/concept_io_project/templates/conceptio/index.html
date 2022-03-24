@@ -8,36 +8,36 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>Design of the Day</h1>
+    <h1>Featured</h1>
     <div>
-        {% if dotd %}
+        {% if featured %}
             <ul>
-                {% for page in dotd %}
-                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                {% for project in featured %}
+                    <li><a href="{{ project.url }}">{{ project.title }}</a></li>
                 {% endfor %}
             </ul>
+        {% else %}
+            <strong>There is no featured projects present.</strong>
         {% endif %}
     </div>
     <h2>Popular Additions</h2>
     <div>
-        {% if pages %}
+        {% if popular_projects %}
             <ul>
-                {% for page in pages %}
-                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                {% for project in popular_projects %}
+                    <li><a href="{{ project.url }}">{{ project.title }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
-            <strong>There are no pages present.</strong>
+            <strong>There are no popular projects present.</strong>
         {% endif %}
     </div>
-
-
     <h2>New Additions</h2>
     <div>
-        {% if additions %}
+        {% if new %}
             <ul>
-                {% for page in additions %}
-                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                {% for project in new %}
+                    <li><a href="{{ project.url }}">{{ project.title }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}

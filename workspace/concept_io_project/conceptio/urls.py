@@ -15,5 +15,9 @@ urlpatterns = [
     path('categories/', views.categories, name='categories'),
     path('view_projects_by_tag/<search_criteria>/', views.view_projects_by_tag, name='view_projects_by_tag'),
     path('search/', views.search, name='search'),
+   #path('Register_here/', views.Register_here, name=' Register Here'),
+    path('Register/', views.register, name = 'Register'),
+    path('Register_here/', views.Register_here, name=' Register Here'),
+    path('profile/<username>/', views.ProfileView.as_view(), name='profile')
 ]
 
