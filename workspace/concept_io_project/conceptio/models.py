@@ -9,7 +9,7 @@ class Project(models.Model):
     desc = models.CharField('Description',max_length=300)
     cat = models.CharField('Category', max_length=300,default='')
     tags = models.CharField('Tags', max_length=300,default='')
-    likes = models.IntegerField('likes', default=0)
+    likes = models.ManyToManyField(User, related_name="project_likes")
     dislikes = models.IntegerField('dislikes', default=0)
     slug = models.SlugField(unique=True)
 
@@ -48,7 +48,6 @@ class Category(models.Model):
     def _str_(self):
         return self.name
         
-
 
 class UserProfile(models.Model):
       

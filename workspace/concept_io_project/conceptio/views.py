@@ -12,7 +12,7 @@ from django.shortcuts import redirect
 from .models import Category, Image,Comment
 from django.urls import reverse
 
-from conceptio.forms import Project,ImageForm, CommentForm
+from conceptio.forms import Project,ImageForm, CommentForm, SearchForm
 from conceptio.forms import UserForm, UserProfileForm
 from django.views.generic.edit import FormView
 
@@ -133,7 +133,7 @@ def categories(request):
 def LikeView(request,project_id):
     project = get_object_or_404(Project, project_id=request.POST.get('project_id'))
     project.likes.add(request.user)
-    return redirect(reverse('conceptio:view_project', kwargs={'project_id': request.POST.get('project_id')}))
+    return redirect(reverse('conceptio:view_project_by_id', kwargs={'project_id': request.POST.get('project_id')}))
 
 def view_categories(request):
   context_dict = {}
@@ -205,3 +205,35 @@ def register(request):
 def user_logout(request):
     logout(request)
     return redirect(reverse('conceptio:index'))
+
+def search(request):
+    search = SearchForm(request.POST or None)
+
+    if request.method == "POST":
+        if search.is_valid():
+            print("alrighht")
+            criteria = search.cleaned_data['search']
+            print(criteria)
+
+            return redirect(reverse('conceptio:view_projects_by_tag', kwargs={'search_criteria': criteria}))
+
+    return render(request, 'conceptio/search.html',{'form': search})
+
+def view_projects_by_tag(request,search_criteria):
+    show=False
+    projects_to_be_showed=[]
+    projects=Project.objects.all()
+    for project in projects:
+        for tag in search_criteria.split():
+            if tag in project.tags.split():
+                show=True
+            else:
+                show=False
+        if show:
+            projects_to_be_showed.append(project)
+
+
+        context_dict={'projects':projects_to_be_showed}
+
+
+    return render(request, 'conceptio/view_projects_by_tag.html',context_dict)

@@ -66,3 +66,6 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('website', 'picture',)        
 
+class SearchForm(forms.Form):
+    search = forms.CharField(max_length=200)
+    
