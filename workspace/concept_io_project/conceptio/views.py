@@ -120,17 +120,14 @@ def index(request):
             featured = projects
 
     new_projects = Project.objects.order_by('id')[-10:]
-
-
     featured = Project.objects.order_by('')
+    
     context_dict = {}
     context_dict['popular_projects'] = [popular_projects]
     context_dict['featured'] = [featured]
     context_dict['new'] = new_projects
 
     return render(request, 'conceptio/index.html', context = context_dict)
-
-
 
 def categories(request):
     
