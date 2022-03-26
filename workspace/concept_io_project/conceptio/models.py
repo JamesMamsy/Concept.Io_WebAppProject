@@ -17,7 +17,7 @@ class Project(models.Model):
     desc = models.CharField('Description',max_length=300)
     cat = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     tags = models.CharField('Tags', max_length=300,default='')
-    likes = models.IntegerField('likes', default=0)
+    likes = models.ManyToManyField(User, related_name="project_likes")
     dislikes = models.IntegerField('dislikes', default=0)
     slug = models.SlugField(unique=True)
 
@@ -51,11 +51,13 @@ class Comment(models.Model):
 
         
 
-
 class UserProfile(models.Model):
       
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     
+    First_name = models.CharField( max_length=64 )
+    last_name = models.CharField ( max_length=64 )
+    email = models.CharField ( max_length=64 )
     website = models.URLField(blank=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     
