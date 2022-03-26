@@ -11,9 +11,9 @@ class ProjectForm(ModelForm):
 
 
         # CHOICES will be replaced by categories stored in db
-        
-        CHOICES = tuple(Category.objects.values_list('id', 'name'))
 
+        #CHOICES = tuple(Category.objects.values_list('id', 'name'))
+        CHOICES = (("x","x"),)
 
         fields = ['title', 'desc', 'cat','tags']
         widgets = {
@@ -66,3 +66,6 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('website', 'picture',)        
 
+class SearchForm(forms.Form):
+    search = forms.CharField(max_length=200)
+    
