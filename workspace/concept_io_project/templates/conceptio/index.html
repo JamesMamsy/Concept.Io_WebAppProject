@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+
 {% extends 'conceptio/base.html' %}
 {% load staticfiles %}
 
@@ -10,10 +9,14 @@
 {% block body_block %}
     <h1>Featured</h1>
     <div>
+
+
+
         {% if featured %}
+
             <ul>
                 {% for project in featured %}
-                    <li><a href="{{ project.url }}">{{ project.title }}</a></li>
+                    <li><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
@@ -25,7 +28,7 @@
         {% if popular_projects %}
             <ul>
                 {% for project in popular_projects %}
-                    <li><a href="{{ project.url }}">{{ project.title }}</a></li>
+                    <li><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
@@ -37,7 +40,7 @@
         {% if new %}
             <ul>
                 {% for project in new %}
-                    <li><a href="{{ project.url }}">{{ project.title }}</a></li>
+                    <li><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}

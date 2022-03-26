@@ -10,10 +10,7 @@ class ProjectForm(ModelForm):
         model = Project
 
 
-        # CHOICES will be replaced by categories stored in db
 
-        #CHOICES = tuple(Category.objects.values_list('id', 'name'))
-        CHOICES = (("x","x"),)
 
         fields = ['title', 'desc', 'cat','tags']
         widgets = {
@@ -30,7 +27,7 @@ class ProjectForm(ModelForm):
 
                 'class': "form-control",
                 'style': 'max-width: 700px;'
-            },choices=CHOICES),
+            }),
             'tags': forms.TextInput(attrs={
 
                 'class': "form-control",
