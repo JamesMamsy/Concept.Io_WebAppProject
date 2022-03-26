@@ -1,5 +1,5 @@
 import os
-os.environ.setdefault('CONCEPT_SETTINGS_MODULE', 'concept_io_project.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'concept_io_project.settings')
 
 import django
 django.setup()

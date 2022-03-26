@@ -2,12 +2,20 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
+class Category(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField('name', max_length=100)
+
+
+    def _str_(self):
+        return self.name
+
 class Project(models.Model):
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     project_id = models.AutoField(primary_key=True)
     title = models.CharField('Title', max_length=120)
     desc = models.CharField('Description',max_length=300)
-    cat = models.ForeignKey(Category, on_delete=models.CASCADE)
+    cat = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     tags = models.CharField('Tags', max_length=300,default='')
     likes = models.IntegerField('likes', default=0)
     dislikes = models.IntegerField('dislikes', default=0)
@@ -40,13 +48,7 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment
 
-class Category(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField('name', max_length=100)
 
-
-    def _str_(self):
-        return self.name
         
 
 
