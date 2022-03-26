@@ -113,13 +113,13 @@ def index(request):
 
     popular_projects = Project.objects.order_by('likes')[:5]
 
-    featured_choices = Project.objects.order_by('id')[-5:]
-    featured = Project.objects.order_by('id')[-1:]
+    featured_choices = Project.objects.order_by('project_id')[-5:]
+    featured = Project.objects.order_by('project_id')[-2:]
     for projects in featured_choices:
         if projects.total_likes() > featured.total_likes():
             featured = projects
 
-    new_projects = Project.objects.order_by('id')[-10:]
+    new_projects = Project.objects.order_by('project_id')[-10:]
 
 
     featured = Project.objects.order_by('')
