@@ -117,11 +117,14 @@ def index(request):
         for projects in featured_choices:
             if projects.total_likes() > featured.total_likes():
                 featured = projects
-
-        new_projects = Project.objects.order_by('project_id')[-10:]
+        if Project.objects.count() > 10:
+            new_projects = Project.objects.order_by('project_id')[-10:]
+        else:
+            new_projects = Project.objects.order_by('project_id')
+        context_dict['new'] = new_projects
         context_dict['popular_projects'] = [popular_projects]
         context_dict['featured'] = [featured]
-        context_dict['new'] = new_projects
+
     except:
         print("nope")
     return render(request, 'conceptio/index.html', context = context_dict)
