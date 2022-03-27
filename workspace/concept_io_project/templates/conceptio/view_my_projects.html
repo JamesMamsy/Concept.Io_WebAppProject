@@ -18,7 +18,7 @@
       <h1>My Projects</h1>
     {% for c in projects %}
 
-        <a href="{% url 'conceptio:view_project_by_id' c.project_id %}">{{ c.title }}</strong></li></a><br />
+        <a href="{% url 'conceptio:view_project_by_id' c.project_id %}">{{ c.title }}</strong></li></a>    -    <a href="{% url 'conceptio:edit_project' c.project_id %}"> Edit</a><br/>
 
     {% endfor %}
 
