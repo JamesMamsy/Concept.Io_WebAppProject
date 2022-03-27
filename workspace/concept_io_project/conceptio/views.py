@@ -104,6 +104,7 @@ def view_projects(request):
 
     context_dict = {}
     user = request.user
+    print(user)
     projects = Project.objects.filter(creator=user)
     context_dict['projects'] = projects
 
@@ -118,13 +119,13 @@ def index(request):
     if Project.objects.count() > 5:
         featured_choices = Project.objects.order_by('project_id').reverse()[5:]
         featured = Project.objects.order_by('project_id').reverse()[1]
-    else:
-        featured_choices = Project.objects
-        featured = Project.objects[0]
 
-    for projects in featured_choices:
-        if projects.total_likes() > featured.total_likes():
-            featured = projects
+        for projects in featured_choices:
+            if projects.total_likes() > featured.total_likes():
+                featured = projects
+    else:
+        featured = Project.objects.first()
+         
 
     if Project.objects.count() > 10:
         new_projects = Project.objects.order_by('project_id').reverse()[10:]
@@ -257,42 +258,6 @@ def view_projects_by_tag(request,search_criteria):
 
 
     return render(request, 'conceptio/view_projects_by_tag.html',context_dict)
-
-def register(request): 
-
-    registered = False
-
-    if request.method == 'POST':
-
-        user_form = UserForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
-
-        if user_form.is_valid() and profile_form.is_valid():
-
-            user = user_form.save()
-            user.set_password(user.password)
-            user.save()
-
-            profile = profile_form.save(commit=False)
-            profile.user = user
-
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-
-            profile.save()
-
-            registered = True
-
-        else:
-
-            print(user_form.errors, profile_form.errors)
-
-    else:
-
-        user_form = UserForm()
-        profile_form = UserProfileForm()
-
-    return render(request, 'conceptio/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 def ProfileView(view):
     def get_user_details(self, username):

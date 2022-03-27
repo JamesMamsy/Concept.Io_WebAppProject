@@ -1,5 +1,5 @@
 import os
-os.environ.setdefault('CONCEPT_SETTINGS_MODULE', 'concept_io_project.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'concept_io_project.settings')
 
 import django
 django.setup()
@@ -72,7 +72,7 @@ def add_cat(name):
     return c
 
 def add_project(cat,creator,title,desc,tags,likes,dislikes):
-    p.Project.objects.get_or_create(cat=cat, title=title, creator=creator)
+    p = Project.objects.get_or_create(cat=cat, title=title, creator=creator)
     p.desc = desc
     p.tags = tags
     p.likes = likes

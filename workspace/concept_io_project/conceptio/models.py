@@ -6,7 +6,6 @@ class Category(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField('name', max_length=100)
 
-
     def _str_(self):
         return self.name
 
@@ -15,7 +14,7 @@ class Project(models.Model):
     project_id = models.AutoField(primary_key=True)
     title = models.CharField('Title', max_length=120)
     desc = models.CharField('Description',max_length=300)
-    cat = models.ForeignKey(Category,on_delete=models.SET_NULL, null=True, blank=True)
+    cat = models.CharField('Category',max_length=120, null=True, blank=True)
     tags = models.CharField('Tags', max_length=300,default='')
     likes = models.ManyToManyField(User, related_name="project_likes")
     dislikes = models.IntegerField('dislikes', default=0)
