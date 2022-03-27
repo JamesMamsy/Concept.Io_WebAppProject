@@ -138,8 +138,6 @@ def index(request):
 
     return render(request, 'conceptio/index.html', context = context_dict)
 
-
-
 def categories(request):
     
     category_list = {"Category_name_here", "example", "etc."}
