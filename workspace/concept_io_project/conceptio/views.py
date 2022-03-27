@@ -118,7 +118,7 @@ def index(request):
     print(Project.objects.order_by('likes'))
     if Project.objects.count() > 5:
         featured_choices = Project.objects.order_by('project_id').reverse()[5:]
-        featured = Project.objects.order_by('project_id').reverse()[1]
+        featured = Project.objects.order_by('project_id').reverse()[0]
 
         for projects in featured_choices:
             if projects.total_likes() > featured.total_likes():
@@ -149,7 +149,7 @@ def categories(request):
         cat_object_list.append(tmp_cat)
     
     context_dict['categories'] = cat_object_list
-    return render(request, 'conceptio/categories.html')
+    return render(request, 'conceptio/categories.html', context_dict)
 
 def LikeView(request,project_id):
     project = get_object_or_404(Project, project_id=request.POST.get('project_id'))
@@ -258,6 +258,17 @@ def view_projects_by_tag(request,search_criteria):
 
 
     return render(request, 'conceptio/view_projects_by_tag.html',context_dict)
+
+def view_projects_by_category(request,category):
+    print(category)
+    x=Category.objects.get(name=category)
+    name=x.name
+    projects=Project.objects.filter(cat=x.id)
+    print(projects)
+    context_dict = {'projects': projects}
+    context_dict['cat']= name
+
+    return render(request, 'conceptio/view_projects_by_category.html', context_dict)
 
 def ProfileView(view):
     def get_user_details(self, username):

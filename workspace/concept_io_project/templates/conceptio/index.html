@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
 {% extends 'conceptio/base.html' %}
 {% load staticfiles %}
 
@@ -8,14 +6,20 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>Featured</h1>
+
+  <center>
+          <h1>Featured</h1>
     <div>
+
+
+
         {% if featured %}
-            <ul>
+
+            <p>
                 {% for project in featured %}
-                    <li><a href="{{ project.url }}">{{ project.title }}</a></li>
+                    <li><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
                 {% endfor %}
-            </ul>
+            </p>
         {% else %}
             <strong>There is no featured projects present.</strong>
         {% endif %}
@@ -23,11 +27,11 @@
     <h2>Popular Additions</h2>
     <div>
         {% if popular_projects %}
-            <ul>
+            <p>
                 {% for project in popular_projects %}
-                    <li><a href="{{ project.url }}">{{ project.title }}</a></li>
+                    <li><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
                 {% endfor %}
-            </ul>
+            </p>
         {% else %}
             <strong>There are no popular projects present.</strong>
         {% endif %}
@@ -35,14 +39,15 @@
     <h2>New Additions</h2>
     <div>
         {% if new %}
-            <ul>
+            <p>
                 {% for project in new %}
-                    <li><a href="{{ project.url }}">{{ project.title }}</a></li>
+                    <li><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
                 {% endfor %}
-            </ul>
+            </p>
         {% else %}
             <strong>There are no new additions present.</strong>
         {% endif %}
+
     </div>
 
 {% endblock %}
