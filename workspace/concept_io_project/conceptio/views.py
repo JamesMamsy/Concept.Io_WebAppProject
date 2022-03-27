@@ -118,7 +118,7 @@ def index(request):
     print(Project.objects.order_by('likes'))
     if Project.objects.count() > 5:
         featured_choices = Project.objects.order_by('project_id').reverse()[5:]
-        featured = Project.objects.order_by('project_id').reverse()[1]
+        featured = Project.objects.order_by('project_id').reverse()[0]
     else:
         featured_choices = Project.objects
         featured = Project.objects[0]
@@ -137,29 +137,27 @@ def index(request):
     return render(request, 'conceptio/index.html', context = context_dict)
 
 def categories(request):
+    context_dict={}
+    category_list=Category.objects.all()
     
-    category_list = {"Category_name_here", "example", "etc."}
-    cat_object_list = []
-    context_dict = {}
-    for cat in category_list:
-        tmp_cat = Category.objects.filter(name=cat)
-        cat_object_list.append(tmp_cat)
-    
-    context_dict['categories'] = cat_object_list
-    return render(request, 'conceptio/categories.html')
+    context_dict['categories'] = category_list
+    return render(request, 'conceptio/categories.html',context_dict)
 
 def LikeView(request,project_id):
     project = get_object_or_404(Project, project_id=request.POST.get('project_id'))
     project.likes.add(request.user)
     return redirect(reverse('conceptio:view_project_by_id', kwargs={'project_id': request.POST.get('project_id')}))
 
-def view_categories(request):
-  context_dict = {}
+def view_projects_by_category(request,category):
+    print(category)
+    x=Category.objects.get(name=category)
+    name=x.name
+    projects=Project.objects.filter(cat=x.id)
+    print(projects)
+    context_dict = {'projects': projects}
+    context_dict['cat']= name
 
-  categories=Category.objects.all()
-  context_dict['categories']=categories
-
-  return render(request, 'rango/categories.html',context_dict)
+    return render(request, 'conceptio/view_projects_by_category.html', context_dict)
 
 def user_login(request):
     if request.method == 'POST':
