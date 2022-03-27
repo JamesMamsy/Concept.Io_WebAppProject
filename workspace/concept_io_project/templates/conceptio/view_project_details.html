@@ -1,4 +1,4 @@
-{% extends 'rango/base.html' %}
+{% extends 'conceptio/base.html' %}
 
 {% load static %}
 
@@ -80,10 +80,9 @@ body {
 </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-"
+          integrity="sha384-">
     <title></title>
-
-
+    
 </head>
 
 <div class="header">
@@ -92,6 +91,24 @@ body {
 <body>
 <div class="row">
     <div class="leftcolumn">
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          {% for c in images%}
+            <div class="carousel-item">
+              <img src="{{ MEDIA_URL}}{{c.image}}" class="d-block w-100" alt="Image can't be shown">
+            </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
         <div class="card">
 
             <h5>{{project.desc}}</h5>
@@ -110,27 +127,54 @@ body {
 
 
     <a
-    <li><strong> {{project.cat}}</strong></li>
+    <li><strong>Category: {{project.cat}}</strong></li>
     </a><br/>
     <a
-    <li><strong> {{project.tags}}</strong></li>
+    <li><strong>Tags: {{project.tags}}</strong></li>
     </a><br/>
     <a
-    <li><strong> {{project.likes}}</strong></li>
+    <li><strong>Likes: {{likes}}</strong></li>
     </a><br/>
     <a
     <li><strong> {{project.dislikes}}</strong></li>
     </a><br/>
+<br>
+{% if not project.comments.all %}
+  None
+{% else %}
+  {% for Comment in project.comments.all %}
+    <strong>
+      {{Comment.commentor}}
+    </strong>
+</br)
 
-    {% for c in comments %}
+    <br>
+      {{Comment.comment}}
+    </br>
+  {% endfor %}
+{% endif %}
 
-    {{ c.comment }}
+<form method="post" >
 
-    {% endfor %}
-    <a href="{% url 'rango:edit_project' project.project_id %}"> Edit this project</a><br/>
+  {% csrf_token %}
+  <center>
+      {{form}}
+      <button type="submit" class="btn btn-primary">Submit</button>
+  </center>
+
+</form>
+
+<a href="{% url 'conceptio:edit_project' project.project_id %}"> Edit this project</a><br/>
 
 
-</ul>
+    <form action="{% url 'conceptio:like_project' project.project_id %}"
+          method = "POST">
+        {% csrf_token %}
+        <button type ="submit", name = "project_id", value = "{{project.project_id}}", class = "btn btn-primary btn-sm">Like
+        </button>
+    </form>
 
+
+</body>
 
 {% endblock %}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-{% extends 'rango/base.html' %}
-{% load static %}
+{% extends 'conceptio/base.html' %}
+{% load staticfiles %}
 
 {% block title_block %}
     Concept.io
@@ -16,6 +16,7 @@
                     <li><a href="{{ page.url }}">{{ page.title }}</a></li>
                 {% endfor %}
             </ul>
+        {% endif %}
     </div>
     <h2>Popular Additions</h2>
     <div>
@@ -32,7 +33,16 @@
 
 
     <h2>New Additions</h2>
-
+    <div>
+        {% if additions %}
+            <ul>
+                {% for page in additions %}
+                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>There are no new additions present.</strong>
+        {% endif %}
+    </div>
 
 {% endblock %}
-</html>

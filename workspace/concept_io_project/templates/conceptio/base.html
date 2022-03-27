@@ -1,3 +1,5 @@
+
+   
 <!DOCTYPE html>
 {% load static %}
 
@@ -18,9 +20,10 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        <a class="nav-link" href="#">Browse</a>
-                        <a class="nav-link" href="#">Profile</a>
+                        <a class="nav-link active" aria-current="page" href="{% url 'conceptio:index'%}">Home</a>
+                        <a class="nav-link" href="{% url 'conceptio:Add Project'%}">Browse</a>
+                        <a class="nav-link" href="{% url 'conceptio:Add Project'%}">Add Project Test</a>
+                        <a class="nav-link " href="{% url 'conceptio:login'%}">Login</a>
                     </div>
                 </div>
             </div>

@@ -13,7 +13,7 @@ class Tag(models.Model):
 
     name = models.CharField('Tag', max_length=20)
 class Project(models.Model):
-    #UserId - User that created the project
+    creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     project_id = models.AutoField(primary_key=True)
     title = models.CharField('Title', max_length=120)
     desc = models.CharField('Description',max_length=300)
@@ -25,7 +25,8 @@ class Project(models.Model):
     dislikes = models.IntegerField('dislikes', default=0)
     slug = models.SlugField(unique=True)
 
-
+    def total_likes(self):
+        return self.likes.count()
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -45,24 +46,28 @@ class Image(models.Model):
 
 class Comment(models.Model):
     # commentor - User that created comment, foreign key
-    project = models.ForeignKey(Project,on_delete=models.SET_NULL, null=True, blank=True)
-    comment = models.CharField('Comment', max_length=3000)
+    project = models.ForeignKey(Project,related_name="comments",on_delete=models.SET_NULL, null=True, blank=True)
+    commentor = models.ForeignKey(User,on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.comment
 
+class Category(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField('name', max_length=100)
 
-class Page(models.Model):
-    TITLE_MAX_LENGTH = 128
-    URL_MAX_LENGTH = 200
 
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    title = models.CharField(max_length=TITLE_MAX_LENGTH)
-    url = models.URLField()
-    views = models.IntegerField(default = 0)
+    def _str_(self):
+        return self.name
+        
+class User(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField('name', max_length=100)
 
     def __str__(self):
-        return self.title
+        return self.name 
+
+
 
 
     
