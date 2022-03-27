@@ -1,6 +1,9 @@
 from django import forms
 from django.forms import ModelForm,TextInput,EmailInput
-from conceptio.models import Project,Image, Comment
+from concept_io_project.models import Project,Image
+from concept_io_project.models import Image, UserProfile
+from django.contrib.auth.models import User
+
 class ProjectForm(ModelForm):
 
     class Meta:
@@ -44,9 +47,14 @@ class ImageForm(ProjectForm):
 
         fields = [ProjectForm.Meta.fields[0]] + [ProjectForm.Meta.fields[1]]+['images',]+[ProjectForm.Meta.fields[2]]+[ProjectForm.Meta.fields[3]]
 
-class CommentForm(ModelForm):
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    
     class Meta:
-        model = Comment
-
-        fields = ['comment',]
-
+        model = User
+        fields = ('username', 'email', 'password',)
+        
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('website', 'picture',)        
