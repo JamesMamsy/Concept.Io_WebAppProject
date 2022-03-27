@@ -18,6 +18,6 @@ urlpatterns = [
    #path('Register_here/', views.Register_here, name=' Register Here'),
     path('Register/', views.register, name = 'Register'),
     path('Register_here/', views.Register_here, name=' Register Here'),
-    path('profile/<username>/', views.ProfileView.as_view(), name='profile')
+    path('profile/<username>/', views.ProfileView, name='profile')
 ]
 
