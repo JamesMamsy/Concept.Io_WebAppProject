@@ -3,12 +3,12 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
-class Category(models.Model):
+# class Category(models.Model):
         
-    name = models.CharField('Name', max_length=20)
-    created_date = models.DateTimeField("Created date")
-    def __str__(self):
-        return self.title
+#     name = models.CharField('Name', max_length=20)
+#     created_date = models.DateTimeField("Created date")
+#     def __str__(self):
+#         return self.title
 class Tag(models.Model):
 
     name = models.CharField('Tag', max_length=20)
@@ -18,7 +18,7 @@ class Project(models.Model):
     title = models.CharField('Title', max_length=120)
     desc = models.CharField('Description',max_length=300)
     cat = models.CharField('Category', max_length=300,default='')
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    # category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = models.CharField('Tags', max_length=300,default='')
     tag_ids = models.ManyToManyField(Tag)
     likes = models.IntegerField('likes', default=0)
@@ -48,7 +48,7 @@ class Comment(models.Model):
     # commentor - User that created comment, foreign key
     project = models.ForeignKey(Project,related_name="comments",on_delete=models.SET_NULL, null=True, blank=True)
     commentor = models.ForeignKey(User,on_delete=models.SET_NULL, null=True, blank=True)
-
+    comment = models.CharField('comment', max_length=250)
     def __str__(self):
         return self.comment
 

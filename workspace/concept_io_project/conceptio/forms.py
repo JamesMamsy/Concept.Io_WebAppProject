@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm,TextInput,EmailInput
-from conceptio.models import Project,Image, Category, Comment
+from conceptio.models import Project,Image, Comment
 class ProjectForm(ModelForm):
 
     class Meta:
@@ -8,8 +8,9 @@ class ProjectForm(ModelForm):
 
 
         # CHOICES will be replaced by categories stored in db
-        
-        CHOICES = tuple(Category.objects.values_list('id', 'name'))
+        category ={}
+        # CHOICES = tuple(Category.objects.values_list('id', 'name'))
+        CHOICES = ((1,2),(1,3))
 
 
         fields = ['title', 'desc', 'cat','tags']
