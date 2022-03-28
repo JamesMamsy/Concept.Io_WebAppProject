@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+{% extends 'conceptio/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Concept.io
+    Profile for {{ selected_user.username }}
+{% endblock %}
+
+{% block body_block %}
+<div class="jumbotron p-4">
+    <div class="container">
+	    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        <h1 class="jumbatron-heading">{{ selected_user.username }} 's Profile</h1>
+	</div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <img src="{{ MEDIA_URL }}{{ user_profile.picture }}"
+            width="300"
+            height="300"
+            alt="{{ selected_user.username }}'s profile image" />
+        <br />
+        <div>
+            {% if selected_user == user %}
+            <form method="post" action="." enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <input type="submit" value="Update" />
+            </form>
+			      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          {% for c in images%}
+            <div class="carousel-item">
+              <img src="{{ MEDIA_URL}}{{c.image}}" class="d-block w-100" alt="Image can't be shown">
+            </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+        <div class="card">
+
+            <h5>{{project.desc}}</h5>
+
+            {% for c in images %}
+
+        <img src="{{ MEDIA_URL }}{{ c.image }}" alt="Picture of a Cat"/>
+
+            {% endfor %}
+            <p>Some text..</p>
+        </div>
+    </div>
+            {% else %}
+            <p>
+                <strong>Website:</strong>
+                <a href="{{ user_profile.website }}">{{ user_profile.website }}</a>
+				
+            </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %>	
+		

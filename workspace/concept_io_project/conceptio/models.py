@@ -49,17 +49,18 @@ class Comment(models.Model):
         return self.comment
 
 
-        
+
 
 class UserProfile(models.Model):
-      
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    
+
     First_name = models.CharField( max_length=64 )
     last_name = models.CharField ( max_length=64 )
     email = models.CharField ( max_length=64 )
     website = models.URLField(blank=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
-    
+
     def __str__(self):
-        return self.user.username 
+        return self.user.username
+

@@ -2,6 +2,7 @@ from django.urls import path
 from conceptio import views
 
 
+
 app_name = 'conceptio'
 
 
@@ -19,6 +20,7 @@ urlpatterns = [
     path('view_projects_by_tag/<search_criteria>/', views.view_projects_by_tag, name='view_projects_by_tag'),
     path('search/', views.search, name='search'),
     path('Register/', views.register, name = 'Register'),
-    path('profile/<username>/', views.ProfileView, name='profile')
+    path('register_profile/', views.register_profile, name='register_profile'),
+    path('profile/<username>/', views.ProfileView, name='profile'),
 ]
 

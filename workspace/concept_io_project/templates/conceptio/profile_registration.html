@@ -1,0 +1,7 @@
+{% extends 'conceptio/base.html' %}
+ {% load staticfiles %} 
+ {% block title_block %} Register - Step 2 {% endblock %}
+ {% block body_block %}
+Register Here - Step 2
+{% csrf_token %} {{ form.as_p }} 
+{% endblock %}
