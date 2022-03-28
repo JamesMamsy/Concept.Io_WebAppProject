@@ -17,7 +17,9 @@ from django.contrib.auth.models import User
 from conceptio.forms import Project,ImageForm, CommentForm, SearchForm
 from conceptio.forms import UserForm, UserProfileForm
 from django.views.generic.edit import FormView
+from django.views import View
 from django.template.defaulttags import register as func_register
+
 
 
 
@@ -86,7 +88,12 @@ def view_project_by_id(request,project_id):
     context_dict['comments'] = comments
     context_dict['likes'] = total_likes
 
+    category = Category.objects.get(id = project.cat)
+    context_dict['category'] = category.name
+
+
     form = CommentForm(request.POST or None)
+    context_dict['form'] = form
     print (form)
     if request.method == "POST":
         if form.is_valid():
@@ -94,9 +101,8 @@ def view_project_by_id(request,project_id):
 
             p = Comment.objects.create(project=project, commentor = request.user, comment = comment)
             p.save()
+            return redirect(reverse('conceptio:view_project_by_id',kwargs={'project_id':project_id}))
 
-
-    context_dict['form'] = form
     return render(request, 'conceptio/view_project_details.html',context_dict)
 
 #Should be view_my_projects, leaving in for lack of refactoring ability
@@ -283,7 +289,8 @@ def view_projects_by_category(request,category):
 
     return render(request, 'conceptio/view_projects_by_category.html', context_dict)
 
-def ProfileView(view):
+def ProfileView(View):
+    
     def get_user_details(self, username):
         try:
             user = User.objects.get(username=username)

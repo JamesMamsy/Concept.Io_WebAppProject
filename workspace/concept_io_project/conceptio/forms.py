@@ -32,7 +32,7 @@ class ProjectForm(ModelForm):
 
                 'class': "form-control",
                 'style': 'max-width: 700px;'
-            },choices=CHOICES),
+            },choices=Category.objects.all().values_list('id', 'name')),
             'tags': forms.TextInput(attrs={
 
                 'class': "form-control",

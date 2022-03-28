@@ -1,6 +1,10 @@
-li a {
+a {
     color: black;
     outline: none;
     text-decoration: none;
 }
 
+.cat-font { 
+    font-size: 17px;
+    letter-spacing: 2.6px;
+}
