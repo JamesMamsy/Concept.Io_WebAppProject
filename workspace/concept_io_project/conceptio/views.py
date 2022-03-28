@@ -1,3 +1,4 @@
+from email.mime import image
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 
@@ -12,6 +13,7 @@ from conceptio.forms import Project,ImageForm, CommentForm
 
 from django.contrib.auth.models import User, auth
 
+from django.template.defaulttags import register
 
 
 def add_project(request):
@@ -94,13 +96,17 @@ def view_project(request,project_id):
 
 
 def view_projects(request):
-    print(request)
 
     context_dict = {}
     user = request.user
     projects = Project.objects.filter(creator=user)
     context_dict['projects'] = projects
-
+    context_dict['project_images'] = {}
+    for project in projects:
+        images = Image.objects.filter(project=project)
+        
+        context_dict['project_images'][project]=images
+    # print(context_dict)
     return render(request, 'conceptio/view_my_projects.html',context_dict)
 
 
@@ -157,3 +163,7 @@ def view_categories(request):
   context_dict['categories']=categories
 
   return render(request, 'rango/categories.html',context_dict)
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)

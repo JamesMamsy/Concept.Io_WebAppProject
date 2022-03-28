@@ -1,4 +1,4 @@
-{% extends 'conceptio/base.html' %}
+{% include 'conceptio/base.html' %}
 
 {% load static %}
 
@@ -133,7 +133,7 @@ body {
     <li><strong>Tags: {{project.tags}}</strong></li>
     </a><br/>
     <a
-    <li><strong>Likes: {{likes}}</strong></li>
+    <li><strong>Likes: {{project.likes}}</strong></li>
     </a><br/>
     <a
     <li><strong> {{project.dislikes}}</strong></li>

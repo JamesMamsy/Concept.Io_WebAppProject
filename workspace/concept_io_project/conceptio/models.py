@@ -6,6 +6,8 @@ from django.template.defaultfilters import slugify
 class Tag(models.Model):
 
     name = models.CharField('Tag', max_length=20)
+    def __str__(self):
+        return self.name
 class Project(models.Model):
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     project_id = models.AutoField(primary_key=True)

@@ -1,34 +1,42 @@
 
-
-
-
-{% extends 'conceptio/base.html' %}
+{% include 'conceptio/base.html' %}
 
 {% load static %}
 
 {% block body_block %}
 
-    <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-"
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-">
 
-    </head>
+</head>
 
-    <body>
-
-        <div class="form-group">
-      <ul>
- <center>
-      <h1>My Projects</h1>
-    {% for c in projects %}
-
-        <a href="{% url 'rango:view_project' c.project_id %}">{{ c.title }}</strong></li></a><br />
-
-    {% endfor %}
-
-
- </center>
-</ul>
-</div>
-    </body>
+<body>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for project in projects %}
+                <div class="col">
+                    <div class="card h-100">
+                        {%if project_images|get_item:project %}
+                            {% for img in project_images|get_item:project  %}
+                                <img class="card-img-top " style="height: 250px;" src="{{ MEDIA_URL }}{{ img.image}}" alt="Card image"/>
+                                <!-- <img class="card-img-top"  alt="Card image"/> -->
+                            {% endfor%}
+                        {% else %}
+                            <img class="card-img-top"  alt="Card image"/>
+                        {%endif%}
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'conceptio:view_project' project.project_id %}">{{ project.title }}</a><br />
+                            </h5>
+                            <p class="card-text">{{project.desc}}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        
+        </div>
+          
+    </div>
+</body>
 {% endblock %}
