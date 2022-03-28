@@ -140,16 +140,11 @@ def index(request):
     return render(request, 'conceptio/index.html', context = context_dict)
 
 def categories(request):
+    context_dict={}
+    category_list=Category.objects.all()
     
-    category_list = {"Category_name_here", "example", "etc."}
-    cat_object_list = []
-    context_dict = {}
-    for cat in category_list:
-        tmp_cat = Category.objects.filter(name=cat)
-        cat_object_list.append(tmp_cat)
-    
-    context_dict['categories'] = cat_object_list
-    return render(request, 'conceptio/categories.html', context_dict)
+    context_dict['categories'] = category_list
+    return render(request, 'conceptio/categories.html',context_dict)
 
 def LikeView(request,project_id):
     project = get_object_or_404(Project, project_id=request.POST.get('project_id'))
@@ -221,7 +216,7 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    return render(request, 'rango/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+    return render(request, 'conceptio/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 def user_logout(request):
     logout(request)

@@ -8,46 +8,70 @@
 {% block body_block %}
 
   <center>
-          <h1>Featured</h1>
-    <div>
+    <div class="container mt-4" >
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                    <h2>Featured</h2>
+                        <p class="card-text">
+                            <ul class="list-group">
+                            {% if featured %}
+                            <p>
+                            {% for project in featured %}
+                            <li  class ="list-group-item"><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
+                            {% endfor %}
+                            </p>
+
+                            {% else %}
+                                <strong>There is no featured projects present.</strong>
+                            {% endif %}
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class ="card-body">
+                    <h2>Popular Additions</h2>
+                        <p class="card-text">
+                            <ul class="list-group">
+                            {% if popular_projects %}
+                                <p>
+                                    {% for project in popular_projects %}
+                                        <li class ="list-group-item"><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
+                                    {% endfor %}
+                                </p>
+                            {% else %}
+                                <strong>There are no popular projects present.</strong>
+                            {% endif %}
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
 
 
-
-        {% if featured %}
-
-            <p>
-                {% for project in featured %}
-                    <li><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
-                {% endfor %}
-            </p>
-        {% else %}
-            <strong>There is no featured projects present.</strong>
-        {% endif %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2>New Additions</h2>
+                        <p class="card-text">
+                            <ul class="list-group">
+                            {% if new %}                                    
+                                    {% for project in new %}
+                                        <li class ="list-group-item"><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
+                                    {% endfor %}
+                            {% else %}
+                            <ul>
+                                <strong>There are no new additions present.</strong>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <h2>Popular Additions</h2>
-    <div>
-        {% if popular_projects %}
-            <p>
-                {% for project in popular_projects %}
-                    <li><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
-                {% endfor %}
-            </p>
-        {% else %}
-            <strong>There are no popular projects present.</strong>
-        {% endif %}
-    </div>
-    <h2>New Additions</h2>
-    <div>
-        {% if new %}
-            <p>
-                {% for project in new %}
-                    <li><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
-                {% endfor %}
-            </p>
-        {% else %}
-            <strong>There are no new additions present.</strong>
-        {% endif %}
-
-    </div>
-
 {% endblock %}

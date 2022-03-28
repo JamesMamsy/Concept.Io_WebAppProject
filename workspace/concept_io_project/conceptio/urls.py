@@ -16,7 +16,7 @@ urlpatterns = [
     path('view_projects_by_tag/<search_criteria>/', views.view_projects_by_tag, name='view_projects_by_tag'),
     path('search/', views.search, name='search'),
    #path('Register_here/', views.Register_here, name=' Register Here'),
-    path('Register/', views.register, name = 'Register'),
+    path('register/', views.register, name = 'register'),
     path('profile/<username>/', views.ProfileView, name='profile'),
     path('view_projects_by_category/<category>', views.view_projects_by_category, name='view_projects_by_category'),
 ]
