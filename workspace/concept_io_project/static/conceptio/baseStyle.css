@@ -4,12 +4,6 @@ a {
     text-decoration: none;
 }
 
-.carousel-inner > .item >img{
-    min-height : 300px;
-    max-height : 300px;
-    width : 100%;
-  }
-
 .cat-font { 
     font-size: 17px;
     letter-spacing: 2.6px;

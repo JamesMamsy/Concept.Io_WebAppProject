@@ -86,7 +86,12 @@ def view_project_by_id(request,project_id):
     context_dict['comments'] = comments
     context_dict['likes'] = total_likes
 
+    category = Category.objects.get(id = project.cat)
+    context_dict['category'] = category.name
+
+
     form = CommentForm(request.POST or None)
+    context_dict['form'] = form
     print (form)
     if request.method == "POST":
         if form.is_valid():
@@ -94,9 +99,8 @@ def view_project_by_id(request,project_id):
 
             p = Comment.objects.create(project=project, commentor = request.user, comment = comment)
             p.save()
+            return redirect(reverse('conceptio:view_project_by_id',kwargs={'project_id':project_id}))
 
-
-    context_dict['form'] = form
     return render(request, 'conceptio/view_project_details.html',context_dict)
 
 #Should be view_my_projects, leaving in for lack of refactoring ability

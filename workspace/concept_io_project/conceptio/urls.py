@@ -17,7 +17,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
    #path('Register_here/', views.Register_here, name=' Register Here'),
     path('register/', views.register, name = 'register'),
-    path('profile/<username>/', views.ProfileView.as_View(), name='profile'),
+    path('profile/<username>/', views.ProfileView, name='profile'),
     path('view_projects_by_category/<category>', views.view_projects_by_category, name='view_projects_by_category'),
 ]
 
