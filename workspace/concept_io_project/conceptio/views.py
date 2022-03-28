@@ -18,6 +18,8 @@ from conceptio.forms import Project,ImageForm, CommentForm, SearchForm
 from conceptio.forms import UserForm, UserProfileForm
 from django.views.generic.edit import FormView
 from django.views import View
+from django.template.defaulttags import register as func_register
+
 
 
 
@@ -77,10 +79,10 @@ def view_project_by_id(request,project_id):
     context_dict = {}
 
     project = Project.objects.get(project_id=project_id)
-    comments = Comment.objects.filter(project=project)
+    comments = Comment.objects.filter(project=project).order_by('-id')
     images = Image.objects.filter(project=project)
     total_likes = get_object_or_404(Project,project_id=project_id).total_likes
-
+    print((comments))
     context_dict['project'] = project
     context_dict['images'] = images
     context_dict['comments'] = comments
@@ -105,13 +107,16 @@ def view_project_by_id(request,project_id):
 
 #Should be view_my_projects, leaving in for lack of refactoring ability
 def view_projects(request):
-    print(request)
 
     context_dict = {}
     user = request.user
-    print(user)
+    
     projects = Project.objects.filter(creator=user)
     context_dict['projects'] = projects
+    context_dict['project_images'] = {}
+    for project in projects:
+        images = Image.objects.filter(project=project)
+        context_dict['project_images'][project]=images
 
     return render(request, 'conceptio/view_my_projects.html',context_dict)
 
@@ -119,8 +124,11 @@ def view_projects(request):
 
 def index(request):
 
-    popular_projects = Project.objects.order_by('likes').reverse()[:5]
-    print(Project.objects.order_by('likes'))
+    popular_projects = Project.objects.order_by('likes')
+    if popular_projects:
+        popular_projects = Project.objects.order_by('likes').reverse()[:5]
+    
+    
     if Project.objects.count() > 5:
         featured_choices = Project.objects.order_by('project_id').reverse()[5:]
         featured = Project.objects.order_by('project_id').reverse()[0]
@@ -141,7 +149,18 @@ def index(request):
     context_dict['new'] = new_projects
     context_dict['popular_projects'] = popular_projects
     context_dict['featured'] = [featured]
-
+    context_dict['popular_project_images'] = {}
+    context_dict['featured_project_images'] = {}
+    context_dict['new_project_images'] = {}
+    for project in [featured]:
+        images = Image.objects.filter(project=project)
+        context_dict['featured_project_images'][project]=images
+    for project in new_projects:
+        images = Image.objects.filter(project=project)
+        context_dict['new_project_images'][project]=images
+    for project in popular_projects:
+        images = Image.objects.filter(project=project)
+        context_dict['popular_project_images'][project]=images
     return render(request, 'conceptio/index.html', context = context_dict)
 
 def categories(request):
@@ -313,3 +332,7 @@ def ProfileView(View):
         context_dict = {'user_profile': user_profile, 'selected_user': user, 'form':form}
        
         return render(request, 'conceptio/profile.html', context_dict)       
+
+@func_register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)

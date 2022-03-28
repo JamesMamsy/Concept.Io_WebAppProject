@@ -23,22 +23,33 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#baseNavBar" aria-controls="baseNavBar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="baseNavBar">
-                    <div class="navbar-nav">
+
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+                    <div class="navbar-nav ">
                         <a class="nav-link active" aria-current="page" href="{% url 'conceptio:index'%}">Home</a>
                         <a class="nav-link" href="{% url 'conceptio:categories'%}">Browse</a>
-                        {% if user.is_authenticated %}                    
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="baseNavBar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              {{ user.username }}
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="baseNavBar">
-                              <a class="dropdown-item" href="{% url 'conceptio:profile' user.username %}">Profile</a>
-                              <a class="dropdown-item" href="{% url 'conceptio:view_my_projects' %}">My Projects</a>
-                            </div>
-                          </li>
-                        <a class="nav-link" href="{% url 'conceptio:logout'%}">Logout</a>
+                        {% if user.is_authenticated %}
                         <a class="nav-link" href="{% url 'conceptio:Add Project'%}">Add Project</a>
+                        <div class="dropdown">
+
+                        <button type="button" class="btn dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{user.username }}
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li>
+                                 <a class="dropdown-item" href="{% url 'conceptio:profile' user.username %}">Profile</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'conceptio:view_my_projects'%}"> My projects</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'conceptio:logout'%}">Logout</a>
+                            </li>
+                            </ul>
+                        
+                        </div>
+                        
+
                         {% else %}
                         <a class="nav-link " href="{% url 'conceptio:login'%}">Login/Register</a>
                         {% endif %}

@@ -1,0 +1,16 @@
+
+/* * { font-family: 'Poppins' }
+@mixin screen {
+	background: $p;
+	padding: 2em;
+	display: flex;
+	flex-direction: column;
+	border-radius: 30px;
+	box-shadow: 0 0 2em hsl(231deg 62% 94%);
+} */
+body {	
+	overflow-y: hidden;
+	display: flex;	
+	background: hsl(218deg 50% 91%);
+	height: 100vh;
+}

@@ -22,6 +22,7 @@ from conceptio import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('login', views.login, name='login'),
     path('conceptio/', include('conceptio.urls')),
     # 3 - The above maps any URLs starting with rango/ to be handled by rango. 
     path('admin/', admin.site.urls),
