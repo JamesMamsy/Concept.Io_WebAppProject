@@ -28,7 +28,8 @@ class Project(models.Model):
         return self.likes.count()
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        
+        self.slug = slugify(self.title+"1")
         super(Project, self).save(*args, **kwargs)
 
     def __str__(self):

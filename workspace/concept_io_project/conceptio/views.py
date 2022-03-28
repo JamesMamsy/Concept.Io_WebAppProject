@@ -88,7 +88,7 @@ def view_project_by_id(request,project_id):
     context_dict['comments'] = comments
     context_dict['likes'] = total_likes
 
-    category = Category.objects.get(id = project.cat)
+    category = Category.objects.get(name = project.cat)
     context_dict['category'] = category.name
 
 
