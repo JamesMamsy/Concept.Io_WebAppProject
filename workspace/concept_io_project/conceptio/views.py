@@ -143,7 +143,18 @@ def index(request):
     context_dict['new'] = new_projects
     context_dict['popular_projects'] = popular_projects
     context_dict['featured'] = [featured]
-
+    context_dict['popular_project_images'] = {}
+    context_dict['featured_project_images'] = {}
+    context_dict['new_project_images'] = {}
+    for project in [featured]:
+        images = Image.objects.filter(project=project)
+        context_dict['featured_project_images'][project]=images
+    for project in new_projects:
+        images = Image.objects.filter(project=project)
+        context_dict['new_project_images'][project]=images
+    for project in popular_projects:
+        images = Image.objects.filter(project=project)
+        context_dict['popular_project_images'][project]=images
     return render(request, 'conceptio/index.html', context = context_dict)
 
 def categories(request):

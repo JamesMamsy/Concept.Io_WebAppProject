@@ -19,7 +19,30 @@
                             {% if featured %}
                             <p>
                             {% for project in featured %}
-                            <li  class ="list-group-item"><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
+                                <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                    <div class="col-md-4">
+                                        {%if popular_project_images|get_item:project %}
+                                            {% for img in popular_project_images|get_item:project  %}
+                                                <img class="img-fluid rounded-start"  src="{{ MEDIA_URL }}{{ img.image}}" alt="Card image"/>
+                                            
+                                            {% endfor%}
+                                        {% else %}
+                                        <img src="..." class="img-fluid rounded-start" alt="...">
+                                        {%endif%}
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                
+                                                <a class="item" href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a>
+                                                
+                                            </h5>
+                                        
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
                             {% endfor %}
                             </p>
 
@@ -35,20 +58,44 @@
             <div class="col-md-4">
                 <div class="card mb-4">
                     <div class ="card-body">
-                    <h2>Popular Additions</h2>
-                        <p class="card-text">
-                            <ul class="list-group">
+                        <h2>Popular Additions</h2>
+                        <div class="col">
                             {% if popular_projects %}
                                 <p>
                                     {% for project in popular_projects %}
-                                        <li class ="list-group-item"><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
+                                        <!-- <li class ="list-group-item"><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li> -->
+                                        <div class="card mb-3" style="max-width: 540px;">
+                                            <div class="row g-0">
+                                              <div class="col-md-4">
+                                                {%if popular_project_images|get_item:project %}
+                                                    {% for img in popular_project_images|get_item:project  %}
+                                                        <img class="img-fluid rounded-start"  src="{{ MEDIA_URL }}{{ img.image}}" alt="Card image"/>
+                                                    
+                                                    {% endfor%}
+                                                {% else %}
+                                                <img src="..." class="img-fluid rounded-start" alt="...">
+                                                {%endif%}
+                                              </div>
+                                              <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">
+                                                        
+                                                        <a class="item" href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a>
+                                                        
+                                                    </h5>
+                                                  
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        
                                     {% endfor %}
                                 </p>
                             {% else %}
                                 <strong>There are no popular projects present.</strong>
                             {% endif %}
-                            </ul>
-                        </p>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -62,7 +109,30 @@
                             <ul class="list-group">
                             {% if new %}                                    
                                     {% for project in new %}
-                                        <li class ="list-group-item"><a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a></li>
+                                        <div class="card mb-3" style="max-width: 540px;">
+                                            <div class="row g-0">
+                                            <div class="col-md-4">
+                                                {%if new_project_images|get_item:project %}
+                                                    {% for img in popular_project_images|get_item:project  %}
+                                                        <img class="img-fluid rounded-start"  src="{{ MEDIA_URL }}{{ img.image}}" alt="Card image"/>
+                                                    
+                                                    {% endfor%}
+                                                {% else %}
+                                                <img src="..." class="img-fluid rounded-start" alt="...">
+                                                {%endif%}
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">
+                                                        
+                                                        <a class="item" href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a>
+                                                        
+                                                    </h5>
+                                                
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
                                     {% endfor %}
                             {% else %}
                             <ul>
