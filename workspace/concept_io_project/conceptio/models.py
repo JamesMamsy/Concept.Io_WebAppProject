@@ -15,10 +15,10 @@ class Project(models.Model):
     project_id = models.AutoField(primary_key=True)
     title = models.CharField('Title', max_length=120)
     desc = models.CharField('Description',max_length=300)
-    cat = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    cat = models.CharField('Category',max_length=120, null=True, blank=True)
     tags = models.CharField('Tags', max_length=300,default='')
     likes = models.ManyToManyField(User, related_name="project_likes")
-    dislikes = models.IntegerField('dislikes', default=0)
+
     slug = models.SlugField(unique=True)
 
     def total_likes(self):
@@ -54,15 +54,21 @@ class Comment(models.Model):
 class UserProfile(models.Model):
       
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    
-    First_name = models.CharField( max_length=64 )
-    last_name = models.CharField ( max_length=64 )
-    email = models.CharField ( max_length=64 )
+
+    first_name = models.CharField(max_length=64, null=True, blank=True)
+    last_name = models.CharField(max_length=64, null=True, blank=True)
+    email = models.CharField(max_length=64, null=True, blank=True)
     website = models.URLField(blank=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     
     def __str__(self):
         return self.user.username 
 
+class User(models.Model):
+    id = models.AutoField(primary_key=True)
+    username = models.CharField('Username', max_length = 100,null=True,blank=True)
+    password = models.CharField('Password', max_length=100,null=True, blank=True)
 
+    def __str__(self):
+        return self.username
 
