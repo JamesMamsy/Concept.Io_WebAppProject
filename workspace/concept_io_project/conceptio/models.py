@@ -1,7 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
-
+class Tag(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField('name', max_length=100)
+    def _str_(self):
+        return self.name
 class Category(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField('name', max_length=100)
