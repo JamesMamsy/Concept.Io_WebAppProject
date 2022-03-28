@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 
-from django.contrib.auth.models import User
+
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -113,10 +113,7 @@ def view_projects(request):
 
     context_dict = {}
     user = request.user
-    print(user)
-    x = User.objects.get(username=user)
-    print(x)
-    projects = Project.objects.filter(creator=x)
+    projects = Project.objects.filter(creator=user)
     context_dict['projects'] = projects
 
     return render(request, 'conceptio/view_my_projects.html',context_dict)

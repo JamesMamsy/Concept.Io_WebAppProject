@@ -9,11 +9,9 @@ class ProjectForm(ModelForm):
     class Meta:
         model = Project
 
+        maybe_choices = tuple(Category.objects.values_list('id', 'name'))
 
-
-        maybe_choices = (('tmp','tmp2'),)
-
-
+ 
 
         fields = ['title', 'desc', 'cat','tags']
         widgets = {
