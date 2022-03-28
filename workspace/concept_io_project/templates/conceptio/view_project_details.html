@@ -68,6 +68,48 @@ body {
   background: #ddd;
   margin-top: 20px;
 }
+.o_chatter{
+    box-sizing: border-box;
+    min-width: 682px;
+    max-width: 892px;
+    margin: 0 auto;
+    padding: 16px 16px 48px;
+}
+.o_chatter .o_thread {
+    margin-top: 10px;
+}
+.o_message{
+    display: flex;
+    padding: 4px 16px;
+    margin-bottom: 0px;
+}
+.o_message_core{
+    background-color: #eeeeee;
+    width: 700px;
+    min-width: 200px;
+  }
+.o_thread .o_message .o_message_sidebar {
+    flex: 0 0 36px;
+    margin-right: 10px;
+    margin-top: 2px;
+    text-align: center;
+    font-size: smaller;
+}
+.o_likes {
+    float: right;
+}
+.o_likes .o_likes_title_box {
+    position: relative;
+    float: right;
+    margin-left: 5px;
+}
+
+
+
+
+
+
+
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 800px) {
@@ -81,12 +123,13 @@ body {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-">
-    <title></title>
+    <title>{{project.title}}</title>
     
 </head>
 
-<div class="header">
-    <h2>{{project.title}}</h2>
+<div class="col">
+    <a href="{% url 'conceptio:edit_project' project.project_id %}"> Edit</a><br/>
+    <h4>{{project.title}}</h2>
 </div>
 <body>
 <div class="row">
@@ -94,7 +137,7 @@ body {
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           {% for c in images%}
-            <div class="carousel-item">
+            <div class="carousel-item" style="height:350px">
               <img src="{{ MEDIA_URL}}{{c.image}}" class="d-block w-100" alt="Image can't be shown">
             </div>
           {% endfor %}
@@ -115,7 +158,7 @@ body {
 
             {% for c in images %}
 
-        <img src="{{ MEDIA_URL }}{{ c.image }}" alt="Picture of a Cat"/>
+        <img src="{{ MEDIA_URL }}{{ c.image }}" style="height:350px" alt="Picture of a Cat"/>
 
             {% endfor %}
             <p>Some text..</p>
@@ -132,45 +175,67 @@ body {
     <a
     <li><strong>Tags: {{project.tags}}</strong></li>
     </a><br/>
-    <a
-    <li><strong>Likes: {{project.likes}}</strong></li>
-    </a><br/>
 
 <br>
-{% if not project.comments.all %}
-  None
-{% else %}
-  {% for Comment in project.comments.all %}
-    <strong>
-      {{Comment.commentor}}
-    </strong>
-</br)
-
-    <br>
-      {{Comment.comment}}
-    </br>
-  {% endfor %}
-{% endif %}
+<div class="o_chatter">
 
 <form method="post" >
 
   {% csrf_token %}
-  <center>
+  <div class="o_chatter_topbar">
       {{form}}
-      <button type="submit" class="btn btn-primary">Submit</button>
-  </center>
+      <button type="submit" class="btn btn-primary">Comment</button>
+          
+      <div class="o_likes">
+          <div class="o_followers_title_box">
+            <div class="dropdown">
+              <button aria-expanded="false" data-bs-toggle="dropdown" id="dropdownMenuButton1" class="btn btn-sm btn-default dropdown-toggle">
+                  <span class="o_followers_count">Likes</span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                <li class="dropdown-item" >
+                  <a href="#"> {{project.likes}} </a>
+                </li>
+                <li class="dropdown-item">
+                  <form action="{% url 'conceptio:like_project' project.project_id %}"
+                        method = "POST">
+                      {% csrf_token %}
+                      <button type ="submit" name = "project_id" value = "{{project.project_id}}", class = "btn btn-primary btn-sm">Like
+                      </button>
+                  </form>
+                  </li>
+              </ul>
+            </div>
+        </div>
+      </div>
+      
+  </div>
+  {% if not project.comments.all %}
+    None
+  {% else %}
+    {% for Comment in project.comments.all %}
+      <div class="o_thread">
+        <div class="o_message " >
+          <div class="o_message_core o_message_note">
+            <p class="o_mail_info">
+                <strong >
+                ⚫  {{Comment.commentor}}
+                </strong>
+            </p>
+            <div>
+              <p>{{Comment.comment}}</p>
+            </div>
+          </div>  
+        </div>
+      </div>
 
+    {% endfor %}
+  
+    
+    {% endif %}
+</div>
 </form>
 
-<a href="{% url 'conceptio:edit_project' project.project_id %}"> Edit this project</a><br/>
-
-
-    <form action="{% url 'conceptio:like_project' project.project_id %}"
-          method = "POST">
-        {% csrf_token %}
-        <button type ="submit", name = "project_id", value = "{{project.project_id}}", class = "btn btn-primary btn-sm">Like
-        </button>
-    </form>
 
 
 </body>

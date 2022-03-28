@@ -80,7 +80,7 @@ def view_project_by_id(request,project_id):
     comments = Comment.objects.filter(project=project)
     images = Image.objects.filter(project=project)
     total_likes = get_object_or_404(Project,project_id=project_id).total_likes
-
+    print(len(comments))
     context_dict['project'] = project
     context_dict['images'] = images
     context_dict['comments'] = comments
