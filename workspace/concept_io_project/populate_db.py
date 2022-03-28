@@ -6,8 +6,6 @@ django.setup()
 from conceptio.models import Category, Project, UserProfile, User
 
 def populate():
-    user = {'Tom'}
-
     user_profiles = {'Tom':{'password':'12345678',
                             'first_name':'Tom',
                             'last_name':'Petty',
