@@ -1,10 +1,12 @@
 from django.contrib import admin
 
-from conceptio.models import Project,Image, Category, Comment
+from conceptio.models import Project,Image, Category, Comment,User,UserProfile
 
 admin.site.register(Image)
 admin.site.register(Category)
 admin.site.register(Comment)
+admin.site.register(User)
+admin.site.register(UserProfile)
 
 class ProjectAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('title',)}

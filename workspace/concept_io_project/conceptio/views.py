@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 
-
+from django.contrib.auth.models import User
 from django.forms import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -51,15 +51,21 @@ def edit_project(request,project_id):
 
 
     if form.is_valid():
+
         form.save()
         images = request.FILES.getlist('images')
-        for image in images:
-            photo = Image.objects.get(project=p)
-            photo.save()
+        if images:
+            Image.objects.filter(project=project).delete()
+            for image in images:
+
+                photo = Image.objects.create(image=image, project=project)
+                photo.save()
+        else:
+            form.save()
         return redirect(reverse('conceptio:view_project_by_id',kwargs={'project_id':project_id}))
 
     else:
-        print("nah")
+
         return render(request, 'conceptio/edit_project.html',{'form': form})
 
 
@@ -107,7 +113,10 @@ def view_projects(request):
 
     context_dict = {}
     user = request.user
-    projects = Project.objects.filter(creator=user)
+    print(user)
+    x = User.objects.get(username=user)
+    print(x)
+    projects = Project.objects.filter(creator=x)
     context_dict['projects'] = projects
 
     return render(request, 'conceptio/view_my_projects.html',context_dict)
@@ -125,8 +134,8 @@ def index(request):
         featured_choices = Project.objects.order_by('project_id').reverse()[5:]
         featured = Project.objects.order_by('project_id').reverse()[0]
     else:
-        featured_choices = Project.objects
-        featured = Project.objects[0]
+        featured_choices = Project.objects.all()
+        featured = Project.objects.first()
     for projects in featured_choices:
         if projects.total_likes() > featured.total_likes():
             featured = projects

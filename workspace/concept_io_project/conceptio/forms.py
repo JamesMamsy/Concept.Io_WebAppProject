@@ -11,6 +11,9 @@ class ProjectForm(ModelForm):
 
 
 
+        maybe_choices = (('tmp','tmp2'),)
+
+
 
         fields = ['title', 'desc', 'cat','tags']
         widgets = {
@@ -27,7 +30,7 @@ class ProjectForm(ModelForm):
 
                 'class': "form-control",
                 'style': 'max-width: 700px;'
-            },choices=Category.objects.all().values_list('id', 'name')),
+            },choices=maybe_choices),
             'tags': forms.TextInput(attrs={
 
                 'class': "form-control",
