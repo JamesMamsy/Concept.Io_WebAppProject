@@ -10,21 +10,29 @@
 
     </head>
 
-    <body>
 
-        <div class="form-group">
-      <ul>
+
+
  <center>
-      <h1>My Projects</h1>
-    {% for c in projects %}
 
-    <a href="{% url 'conceptio:view_project_by_id' c.project_id %}">{{ c.title }}</strong></li></a>    -    <a href="{% url 'conceptio:edit_project' c.project_id %}"> Edit</a><br/>
-
-    {% endfor %}
+    <h1>{{user.username}}'s Projects</h1>
+    <div class="container mt-5">
+        <div class="col-md-2">
+            {% for c in projects %}
+                <div class="row-md-3">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <a class="card-title" href="{% url 'conceptio:view_project_by_id' c.project_id %}">{{ c.title }}</strong></li></a>
+                        </br></br>
+                            <a class="btn btn-primary" href="{% url 'conceptio:edit_project' c.project_id %}">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 
 
  </center>
-</ul>
-</div>
-    </body>
+
 {% endblock %}

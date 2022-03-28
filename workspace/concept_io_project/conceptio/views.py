@@ -17,6 +17,7 @@ from django.contrib.auth.models import User
 from conceptio.forms import Project,ImageForm, CommentForm, SearchForm
 from conceptio.forms import UserForm, UserProfileForm
 from django.views.generic.edit import FormView
+from django.views import View
 
 
 
@@ -265,7 +266,8 @@ def view_projects_by_category(request,category):
 
     return render(request, 'conceptio/view_projects_by_category.html', context_dict)
 
-def ProfileView(view):
+def ProfileView(View):
+    
     def get_user_details(self, username):
         try:
             user = User.objects.get(username=username)

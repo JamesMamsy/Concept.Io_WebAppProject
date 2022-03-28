@@ -10,21 +10,35 @@
 
     </head>
 
-    <body>
 
-        <div class="form-group">
-      <ul>
+
+    
  <center>
-      <h1>Concept Categories</h1>
-    {% for c in categories %}
-
-        <a href="{% url 'conceptio:view_projects_by_category' c.name %}">{{ c.name }}</strong></li></a><br />
-
-    {% endfor %}
-
+    
+    <div class="container mt-4">
+        <h1>Concept Categories</h1>
+            <div class="row mt-3 mb-3">
+                
+                                
+                                {% for c in categories %}
+                                <div class="col-md-3">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <div class="card-text">
+                                                <a class="cat-font" href="{% url 'conceptio:view_projects_by_category' c.name %}">{{ c.name }}</strong></li></a><br />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                
+                              
+            </div>
+        </div>
+    </div>
 
  </center>
-</ul>
-</div>
-    </body>
+    
+
+
 {% endblock %}
