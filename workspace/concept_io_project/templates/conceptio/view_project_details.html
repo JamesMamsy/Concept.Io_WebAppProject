@@ -213,7 +213,7 @@ body {
   {% if not project.comments.all %}
     None
   {% else %}
-    {% for Comment in project.comments.all %}
+    {% for Comment in comments %}
       <div class="o_thread">
         <div class="o_message " >
           <div class="o_message_core o_message_note">

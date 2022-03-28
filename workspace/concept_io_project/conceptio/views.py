@@ -77,10 +77,10 @@ def view_project_by_id(request,project_id):
     context_dict = {}
 
     project = Project.objects.get(project_id=project_id)
-    comments = Comment.objects.filter(project=project)
+    comments = Comment.objects.filter(project=project).order_by('-id')
     images = Image.objects.filter(project=project)
     total_likes = get_object_or_404(Project,project_id=project_id).total_likes
-    print(len(comments))
+    print((comments))
     context_dict['project'] = project
     context_dict['images'] = images
     context_dict['comments'] = comments
