@@ -1,48 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
 {% extends 'conceptio/base.html' %}
 {% load staticfiles %}
 
-{% block title_block %}
-    Concept.io
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block body_block %}
-    <h1>Design of the Day</h1>
-    <div>
-        {% if dotd %}
-            <ul>
-                {% for page in dotd %}
-                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-    <h2>Popular Additions</h2>
-    <div>
-        {% if pages %}
-            <ul>
-                {% for page in pages %}
-                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <strong>There are no pages present.</strong>
-        {% endif %}
-    </div>
-
-
-    <h2>New Additions</h2>
-    <div>
-        {% if additions %}
-            <ul>
-                {% for page in additions %}
-                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <strong>There are no new additions present.</strong>
-        {% endif %}
-    </div>
-
-{% endblock %}
+<head lang='en'>
+    <title>ConceptIO</title>
+    <meta charset="UTF-8"/>
+    <!--This links the bootstrap CSS and JS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/responsive.css' %}"> -->
+</head>
+<body>
+    <nav style="background-color:red" class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Concept.IO</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="{% url 'conceptio:index'%}">Home</a>
+                    <a class="nav-link" href="{% url 'conceptio:Add Project'%}">Browse</a>
+                    <a class="nav-link" href="{% url 'conceptio:Add Project'%}">Add Project Test</a>
+                    <a class="nav-link " href="{% url 'conceptio:login'%}">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</body>
+</html>

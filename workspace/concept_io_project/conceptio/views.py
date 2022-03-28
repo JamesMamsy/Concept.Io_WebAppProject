@@ -1,9 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 
-
-from django.forms import modelformset_factory
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseRedirect,HttpResponse
 from .forms import ImageForm, Project
@@ -13,7 +10,7 @@ from django.urls import reverse
 
 from conceptio.forms import Project,ImageForm, CommentForm
 
-from django.views.generic.edit import FormView
+from django.contrib.auth.models import User, auth
 
 
 
@@ -118,7 +115,23 @@ def index(request):
 
 
 def login(request):
-    return render(request, 'conceptio/login.html')
+    if request.method == "POST":        
+        password = request.POST.get('password')
+        username = request.POST.get('username')
+
+        user = auth.authenticate(username=username, password = password)
+        
+        if user is not None:
+            auth.login(request, user)
+            return redirect('/')
+            # return render(request, 'conceptio/view_my_projects.html')
+        else:
+            messages.info(request,'Invalid credentials')
+            return render(request, 'conceptio/login.html')
+            # return redirect('conceptio/login.html')
+
+    else:        
+        return render(request, 'conceptio/login.html')
 
 def categories(request):
     
