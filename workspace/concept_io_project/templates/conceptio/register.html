@@ -6,20 +6,33 @@
 {% endblock %}
 
 {% block body_block %}
-<h1>Register for Concept.io</h1>
 {% if registered %}
 <strong>Account Registered</strong>
 <a href="{% url 'conceptio:index' %}">Return to the homepage.</a><br />
 {% else %}
-  <strong>register here!</strong><br />
-<form id="user_form" method="post" action="{% url 'conceptio:register' %}" enctype="multipart/form-data">
+<div class="container w-25 border border-primary rounded mt-3 p-5">
+    <form id="user_form" class="form-signin" method="post" action="{% url 'conceptio:register' %}" enctype="multipart/form-data">
 
-    {% csrf_token %}
-    {{ user_form.as_p }}
-    {{ profile_form.as_p }} 
+      {% csrf_token %}
+      <!-- {{ user_form.as_p }} -->
+      <!-- {{ profile_form.as_p }}  -->
+      <label for="inputPicture" class="sr-only m-2">Your image</label>
+      <input type="file" name="picture" value="" class="form-control m-2" placeholder="Image"  />
+      <label for="inputUsername" class="sr-only m-2">Username</label>
+      <input type="text" name="username" value="" class="form-control m-2" placeholder="Username" required/>
+      <label for="inputEmail" class="sr-only m-2">Email</label>
+      <input type="text" name="Email" value="" class="form-control m-2" placeholder="Email" required/>
+      <label for="inputPassword" class="sr-only m-2">Password</label>
+      <input type="password" name="password" value="" class="form-control m-2" placeholder="Password" required />
+      <label for="inputWebsite" class="sr-only m-2">Website</label>
+      <input type="text" name="website" value="" class="form-control m-2" placeholder="Website"  />
+      <div class="text-center">
+        <button class="btn btn-primary " type="submit" value="submit" />Register</button>
+      </div>
+      
+  </form>
 
-
-    <input type="submit" name="submit" value="Register" />
-</form>
+  
+</div>
 {% endif %}
 {% endblock %}	
