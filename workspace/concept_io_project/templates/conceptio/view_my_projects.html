@@ -27,9 +27,10 @@
                         {%endif%}
                         <div class="card-body">
                             <h5 class="card-title">
-                                <a href="{% url 'conceptio:view_project' project.project_id %}">{{ project.title }}</a><br />
+                                <a href="{% url 'conceptio:view_project_by_id' project.project_id %}">{{ project.title }}</a><br />
                             </h5>
                             <p class="card-text">{{project.desc}}</p>
+                            <a href="{% url 'conceptio:edit_project' project.project_id %}"> Edit</a><br/>
                         </div>
                     </div>
                 </div>
