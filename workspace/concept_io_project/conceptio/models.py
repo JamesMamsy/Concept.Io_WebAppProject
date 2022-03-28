@@ -15,7 +15,7 @@ class Project(models.Model):
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     project_id = models.AutoField(primary_key=True)
     title = models.CharField('Title', max_length=120)
-    desc = models.CharField('Description',max_length=300)
+    desc = models.CharField('Description',max_length=30000)
     cat = models.CharField('Category',max_length=120, null=True, blank=True)
     tags = models.CharField('Tags', max_length=300,default='')
     likes = models.ManyToManyField(User, related_name="project_likes")
