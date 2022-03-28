@@ -1,5 +1,5 @@
 
-{% include 'conceptio/base.html' %}
+{% extends 'conceptio/base.html' %}
 
 {% load staticfiles %}
 
@@ -13,7 +13,8 @@
 
     <body>
         <div class="form-group">
-            <form id="{% url 'list' %" method="post" enctype="multipart/form-data"}">
+            <form id="{% url 'list' %" method="post" enctype="multipart/form-data">
+
 
             {% csrf_token %}
                 <center>

@@ -15,10 +15,10 @@
         <div class="form-group">
       <ul>
  <center>
-      <h1>Concept Categories</h1>
-    {% for c in categories %}
+      <h1>Results</h1>
+    {% for c in projects %}
 
-        <a href="{% url 'conceptio:view_projects_by_category' c.name %}">{{ c.name }}</strong></li></a><br />
+     <a href="{% url 'conceptio:view_project_by_id' c.project_id %}">{{ c.title }}</strong></li></a><br />
 
     {% endfor %}
 
